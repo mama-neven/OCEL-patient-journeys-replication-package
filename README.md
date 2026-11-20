@@ -50,3 +50,12 @@ python3 -m venv .venv
 ```
 
 Open `ocel_analysis.ipynb` and select **Python (ocel-patient-journeys)** as its kernel.
+
+## Licence
+
+Copyright 2026 mama health.
+
+- The event logs (`logs/`) and figures (`paper/figures/`) are licensed under
+  [CC BY 4.0](LICENSE-data).
+- The code (`pj2ocel/`, the notebooks and `evaluation_crosscheck.py`) is licensed
+  under the [Apache License 2.0](LICENSE).
