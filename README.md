@@ -53,7 +53,7 @@ Open `ocel_analysis.ipynb` and select **Python (ocel-patient-journeys)** as its 
 
 ## Licence
 
-Copyright 2026 mama health.
+Copyright 2026 mama health technologies GmbH.
 
 - The event logs (`logs/`) and figures (`paper/figures/`) are licensed under
   [CC BY 4.0](LICENSE-data).
