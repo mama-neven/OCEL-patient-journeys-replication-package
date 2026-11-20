@@ -1,0 +1,468 @@
+# pj2ocel mapping: mama health patient-journey trace export -> OCEL 2.0
+#
+# This file IS the mapping. The engine (pj2ocel.py) only executes it.
+# Principles P0-P10 are in mapping-principles.md; each rule names the principle it implements.
+#
+# Expression syntax (used for every value below)
+#   "$path|filter|..."     a value from the context, e.g. $row.status, $payload.treatment_name, $param.time_anchor
+#   "text {path|filter}"   a string template, e.g. "ce:{patient}:{row.lineage}"
+#   plain value            a literal
+#   {fn: name, args: []}   a function: json, split, len, anchor, date_add, days_between, is_number, coalesce, pair, factors
+#   {def: name}            a named expression from `defs`
+#   {ref: Type, args: {}}  the object of an object_types constructor (created on first use; null if dropped)
+#   {obj: "id template"}   an existing object id, else null
+#   {find: Type, where:}   the unique object of this patient and type whose creating row ($cand.row) matches
+#   {index: name, key:}    rows of an index ({index1: ...} gives the first one)
+#   {get: expr, key: expr} | {lookup: map, key:, default:} | {if: cond, then:, else:} | {switch: [{when:, then:}], default:}
+#   {agg: list|unique|unique_sorted|join|count|count_distinct|min|max|first, over:, item:, where:, sep:, default:}
+#   {with: {name: expr}, expr:} | {in_source: source, row: expr, expr:} | {test: cond} | {dict: {...}}
+# Conditions: {v: expr, eq|ne|in|not_in|contains|exists|matches|not_matches|gt|ge|lt|le: expr}, {all: []}, {any: []}, {not: cond};
+#   {v: expr} alone tests truthiness.
+# Context names: patient (code), P (patient record), row, i (row number), item (in each/agg), args (constructors),
+#   cand (find), subject (events), param, vocab, plus the `let` names of the source and the rule.
+# Filters: lower upper camel norm verbatim slug before_dot after_dot before_colon after_colon first8 first19 lo hi
+#   span_start pad6 json len join str
+
+input:
+  patients: patients          # key of the patient list in the export
+  patient_id: code            # field that identifies a patient
+  require: [gold_anchors]     # a patient without journey summaries is left out whole, never mapped in part
+
+# ---------------------------------------------------------------------------------------------------------
+# Modelling decisions. Override with --params FILE or --set KEY=VALUE.
+params:
+  perspectives: [Patient, PatientCondition, TreatmentCourse]   # P2, P7
+  min_lifecycle: 2                     # P2: a perspective needs this median number of events per object
+  event_statuses: [occurred]           # P1: fact statuses that can become events
+  time_anchor: lower                   # P1: lower | mid of the date bracket
+  initial_time: first_event            # P4: timestamp of snapshot values: first_event | epoch
+  relations: o2o                       # P6: o2o | reified (EventRelation objects)
+  evidence: attribute                  # P9: attribute | none
+  evidence_text: false                 # P9: also copy the quoted text (keep false for shared logs)
+  change_types: events_on_target       # P3: events_on_target | objects
+  fact_object_types: per_type          # P2: per_type | single (one ClinicalFact type)
+  normalize_verbatim: true             # P8
+  provenance_log: true                 # P0
+
+# ---------------------------------------------------------------------------------------------------------
+# Names and code lists of the source vocabulary.
+vocab:
+  change_fact_types: [DISEASE_STATUS]
+  course_fact_types: [TREATMENT]
+  period_end_states: [stopped, changed]  # P1, P3: period states whose end the sources may date
+  start_activity:                      # P1: verb + object, safe identifiers
+    SYMPTOM: StartSymptom
+    TREATMENT: StartTreatment
+    ADVERSE_EVENT: StartAdverseEvent
+    HOSPITALIZATION: AdmitToHospital
+    DISEASE_STATUS: ChangeDiseaseStatus
+    DIAGNOSIS: ReceiveDiagnosis
+    DIAGNOSTIC_PROCEDURE: UndergoDiagnosticProcedure
+    HCP_VISIT: VisitHcp
+    INFORMATION_SEARCH: SearchInformation
+  end_activity:
+    SYMPTOM: EndSymptom
+    TREATMENT: EndTreatment
+    ADVERSE_EVENT: EndAdverseEvent
+    HOSPITALIZATION: DischargeFromHospital
+  change_activity:                     # P3: a period that changed (dose, schedule, severity) and carries on
+    TREATMENT: ChangeTreatment
+    SYMPTOM: ChangeSymptom
+    ADVERSE_EVENT: ChangeAdverseEvent
+  factor_attribute: {barrier: barriers, driver: motivators, motivator: motivators, trigger: triggers}   # P4
+
+# ---------------------------------------------------------------------------------------------------------
+# Named row sources: a table of the patient record plus values computed for each row.
+sources:
+  facts:
+    table: events_active
+    let:
+      payload: {fn: json, args: [$row.payload]}
+      lo: $row.clinical_start|lo
+      hi: $row.clinical_start|hi
+      t: {fn: anchor, args: [$lo, $hi, $param.time_anchor]}
+      end_lo: $row.clinical_end|lo
+      end_hi: $row.clinical_end|hi
+      facets: {fn: split, args: [$row.facets, ","]}
+      fact: "ce:{patient}:{row.lineage}"            # id of the fact's carrier object
+  milestones:
+    table: gold_anchors
+    let:
+      lo: $row.time|lo
+      hi: $row.time|hi
+      journey: {ref: PatientCondition, args: {condition: "conditions.{row.condition_id}"}}
+      factors: {fn: factors, args: [$row.factors]}
+
+# Lookups over the patient record, built once per patient.
+indexes:
+  facts_by_short: [{from: events_active, key: $row.short_id}]
+  supersession_by_new: [{from: supersessions, key: $row.new_id}]
+  evidence_by_event:
+    - {from: evidence, each: $row.source_refs, key: $row.event_id,
+       value: {dict: {ref: $item, span: $row.span, text: $row.text}}}
+  related:                             # facts that are an endpoint of a relation
+    - {from: edges, key: $row.source_id}
+    - {from: edges, key: $row.target_id}
+  causes: [{from: edges, where: {v: $row.edge, eq: CAUSES}, key: "{row.source_id}>{row.target_id}"}]
+
+# Named expressions, evaluated where they are used (on a `facts` row unless noted).
+defs:
+  course:                              # the treatment course whose episode lists this fact
+    find: TreatmentCourse
+    where: {v: $cand.row.source_event_ids, contains: $row.short_id}
+  materialisable:                      # P1: happened, dated, and not dated after it was reported
+    test: {all: [{v: $row.status, in: $param.event_statuses}, {v: $lo, exists: true}, {v: $lo, le: $row.disclosed_at|first19}]}
+  change_target:                       # P3: the object a change acts on (a disease status: its one journey)
+    if: {v: {fn: len, args: [$facets]}, eq: 1}
+    then: {ref: PatientCondition, args: {condition: $facets.0}}
+  change_event:                        # P3: this fact is mapped as an event on its target
+    test:
+      all:
+        - {v: $param.change_types, eq: events_on_target}
+        - {v: $row.event_type, in: $vocab.change_fact_types}
+        - {v: {def: materialisable}}
+        - {v: {def: change_target}, exists: true}
+  pure_change:                         # ... and needs no carrier object (no relation points at it)
+    test: {all: [{v: {def: change_event}}, {not: {v: {index: related, key: $row.short_id}, exists: true}}]}
+  regular_event:                       # P1: occurred, has a time, not a change event
+    test: {all: [{v: {def: materialisable}}, {not: {v: {def: change_event}}}]}
+  occurred_fact:                       # P1: occurred and not a change event, dated or not (its end may be dated)
+    test: {all: [{v: $row.status, in: $param.event_statuses}, {not: {v: {def: change_event}}}]}
+  period_ends:                         # P1, P3: the sources say the period ended or changed, or give its length
+    test:
+      any:
+        - {v: $row.period_state, in: $vocab.period_end_states}
+        - {all: [{v: $row.period_state, ne: ongoing}, {v: {def: stated_duration}}]}
+  stated_duration: {test: {all: [{v: {fn: is_number, args: [$payload.duration_days]}}, {v: $payload.duration_days, gt: 0}]}}
+  end_time:                            # the dated end; else start + a stated duration
+    switch:
+      - when: {all: [{v: $end_lo, exists: true}, {not: {v: {def: ends_before_start}}}]}
+        then: {fn: anchor, args: [$end_lo, $end_hi, $param.time_anchor]}
+      - when: {all: [{v: $row.period_state, ne: changed}, {v: {def: stated_duration}}]}
+        then: {fn: date_add, args: [$lo, $payload.duration_days]}
+    default: null
+  ends_before_start: {test: {all: [{v: $lo, exists: true}, {v: $end_lo, exists: true}, {v: $end_lo, lt: $lo}]}}
+  fact_resource:                       # P5: who reported the fact; a document's author is not established
+    if: {v: $row.source_type, eq: document}
+    then: document
+    else: $row.reported_by
+  fact_type: {if: {v: $param.fact_object_types, eq: per_type}, then: "{row.event_type|camel}", else: ClinicalFact}
+  edge_source: {with: {f: {index1: facts_by_short, key: $row.source_id}}, expr: {obj: "ce:{patient}:{f.lineage}"}}
+  edge_target: {with: {f: {index1: facts_by_short, key: $row.target_id}}, expr: {obj: "ce:{patient}:{f.lineage}"}}
+  quoted_source:                       # on an evidence item: the source object it quotes
+    switch:
+      - when: {v: $item.ref|before_colon, eq: message}
+        then: {obj: "msg:{patient}:{item.ref|after_colon|first8}"}
+      - when: {v: $item.ref|before_colon, eq: document}
+        then: {obj: "doc:{patient}:{item.ref|after_colon|first8}"}
+      - when: {v: $item.ref|before_colon, eq: onboarding}
+        then: {ref: OnboardingSession, args: {session: $item.ref|after_colon|first8}}
+    default: null
+
+# =========================================================================================================
+logs:
+  # -------------------------------------------------------------------------------------------------------
+  # P0: the journey log is on occurrence (valid) time.
+  journey:
+    initial_time: $param.initial_time
+
+    object_types:                      # constructors, created when first referenced
+      Patient:
+        id: "pat:{patient}"
+        attrs: {sex: $P.marts_attributes.0.gender, birth_year: $P.marts_attributes.0.birth_year,
+                country: $P.marts_attributes.0.country_alpha3}
+      PatientCondition:                # the journey: patient x condition
+        id: "pc:{patient}:{args.condition|after_dot}"
+        attrs: {condition_code: $args.condition}
+        o2o:
+          - {to: {ref: Patient}, qualifier: of_patient}
+    attr_sets:
+      evidence:                        # P9
+        evidence_refs:
+          if: {v: $param.evidence, eq: attribute}
+          then: {agg: join, sep: "; ", over: {index: evidence_by_event, key: $row.event_id},
+                 item: "{item.ref|before_colon}:{item.ref|after_colon|first8}{item.span}"}
+        evidence_text:
+          if: {all: [{v: $param.evidence, eq: attribute}, {v: $param.evidence_text}]}
+          then: {agg: join, sep: " | ", over: {index: evidence_by_event, key: $row.event_id}, item: $item.text}
+      fact_event:                      # P5: observed once, at the event
+        precision: $row.clinical_start_precision
+        clinical_from: $lo
+        clinical_to: $hi
+        reported_at: $row.disclosed_at
+        resource: {def: fact_resource}
+
+    e2o_sets:
+      perspectives:                    # P7: subject + the subject's links to perspective objects
+        - where: {v: $param.perspectives, contains: Patient}
+          object: {ref: Patient}
+          qualifier: concerns
+        - where: {v: $param.perspectives, contains: PatientCondition}
+          each: $facets
+          object: {ref: PatientCondition, args: {condition: $item}}
+          qualifier: in_journey
+        - where: {all: [{v: $param.perspectives, contains: TreatmentCourse}, {v: $row.event_type, in: $vocab.course_fact_types},
+                        {v: {def: course}, ne: $subject}]}
+          object: {def: course}
+          qualifier: in_course
+
+    objects:
+      - from: _patient                 # the patient record itself
+        ref: {ref: Patient}
+      - from: gold_episodes            # P2: perspective
+        id: "tc:{patient}:{i}"
+        type: TreatmentCourse
+        attrs: {treatment_code: $row.treatment, treatment_label: $row.verbatim|verbatim, seq: $row.seq}
+        o2o:
+          - {to: {ref: PatientCondition, args: {condition: "conditions.{row.condition_id}"}}, qualifier: in_journey}
+      - from: facts                    # P2: carrier objects; a pure change needs none (P3)
+        where: {not: {v: {def: pure_change}}}
+        id: $fact
+        type: {def: fact_type}
+        attrs:
+          - status: $row.status
+            precision: $row.clinical_start_precision
+            clinical_from: $lo
+            clinical_to: $hi
+            source_channel: $row.source_type
+            reporter: $row.reported_by
+            confidence: $row.confidence
+            is_inferred: $row.is_inferred
+            fact_type: {if: {v: $param.fact_object_types, ne: per_type}, then: $row.event_type}
+          - spread: $payload
+            exclude: {agg: list, over: $payload, where: {v: $item, matches: '_resolved_from$'}}
+            map: {"*_verbatim": verbatim}
+          - {use: evidence}
+        o2o:
+          - {each: $facets, to: {ref: PatientCondition, args: {condition: $item}}, qualifier: in_journey}
+          - {where: {v: $row.event_type, in: $vocab.course_fact_types}, to: {def: course}, qualifier: in_course}
+      - from: edges                    # P6: relations as objects, only if params.relations = reified
+        where: {all: [{v: $param.relations, ne: o2o},
+                      {v: {def: edge_source}, exists: true}, {v: {def: edge_target}, exists: true}]}
+        id: "rel:{patient}:{i}"
+        type: EventRelation
+        attrs: {edge: $row.edge|lower, basis: $row.basis, confidence: $row.confidence}
+        o2o:
+          - {to: {def: edge_source}, qualifier: source}
+          - {to: {def: edge_target}, qualifier: target}
+      - from: milestones
+        id: "ms:{patient}:{row.anchor}"
+        type: Milestone
+        attrs:
+          - {milestone_type: $row.anchor, category: $row.category, presence: $row.presence, clinical_from: $lo,
+             clinical_to: $hi, precision: $row.precision}
+          - barriers: {agg: join, sep: ', ', over: $factors, item: $item.code,
+                      where: {v: {lookup: $vocab.factor_attribute, key: $item.kind}, eq: barriers}}
+            motivators: {agg: join, sep: ', ', over: $factors, item: $item.code,
+                      where: {v: {lookup: $vocab.factor_attribute, key: $item.kind}, eq: motivators}}
+            triggers: {agg: join, sep: ', ', over: $factors, item: $item.code,
+                      where: {v: {lookup: $vocab.factor_attribute, key: $item.kind}, eq: triggers}}
+        o2o:
+          - {to: $journey, qualifier: in_journey}
+
+    o2o:
+      - from: edges                    # P6: relations between facts
+        where: {v: $param.relations, eq: o2o}
+        from_object: {def: edge_source}
+        to: {def: edge_target}
+        qualifier: $row.edge|lower
+      - from: gold_transitions
+        from_object: {obj: "ms:{patient}:{row.source}"}
+        to: {obj: "ms:{patient}:{row.target}"}
+        qualifier: followed_by
+
+    attributes:
+      - from: characteristics          # P4: properties of the journey
+        object: {ref: PatientCondition, args: {condition: $row.condition}}
+        attrs: {"{row.characteristic}": $row.value}
+      - from: gold_labels
+        object: {ref: PatientCondition, args: {condition: "conditions.{row.condition_id}"}}
+        attrs: {labels: $row.label}
+        collect: [labels]
+      - from: facts                    # P4: a change in the world, at valid time
+        where: {all: [{v: $row.event_type, eq: DISEASE_STATUS}, {v: {def: change_event}}]}
+        object: {def: change_target}
+        time: $t
+        attrs: {disease_status: $payload.status_value}
+
+    events:
+      - from: facts                    # P3: a change is an event on the object it changes
+        where: {v: {def: change_event}}
+        id: "e:{patient}:{row.short_id}"
+        activity: {lookup: $vocab.start_activity, key: $row.event_type}
+        time: $t
+        subject: {def: change_target}
+        e2o:
+          - {object: $subject, qualifier: subject}
+          - {use: perspectives}
+          - {object: {obj: $fact}, qualifier: recorded_as}
+        attrs:
+          - {use: fact_event}
+          - {spread: $payload, scalars_only: true, map: {"*_verbatim": verbatim}}
+          - {use: evidence}
+      - from: facts                    # P1: start (or only) event of a fact
+        where: {v: {def: regular_event}}
+        let:
+          end: {lookup: $vocab.end_activity, key: $row.event_type}
+        id: {if: {v: $end, exists: true}, then: "e:{patient}:{row.short_id}:start", else: "e:{patient}:{row.short_id}"}
+        activity: {lookup: $vocab.start_activity, key: $row.event_type, default: "{row.event_type|camel}"}
+        time: $t
+        subject: {obj: $fact}
+        e2o: [{object: $subject, qualifier: subject}, {use: perspectives}]
+        attrs: [{use: fact_event}]
+      - from: facts                    # P1, P3: end of a period: stopped, or changed and carried on by a new period
+        where: {all: [{v: {def: occurred_fact}}, {v: {def: period_ends}}]}
+        let:
+          changed: {test: {v: $row.period_state, eq: changed}}
+        id: {if: {v: $changed}, then: "e:{patient}:{row.short_id}:change", else: "e:{patient}:{row.short_id}:end"}
+        activity:
+          if: {v: $changed}
+          then: {lookup: $vocab.change_activity, key: $row.event_type, default: "Change{row.event_type|camel}"}
+          else: {lookup: $vocab.end_activity, key: $row.event_type, default: "End{row.event_type|camel}"}
+        time: {def: end_time}
+        subject: {obj: $fact}
+        e2o: [{object: $subject, qualifier: subject}, {use: perspectives}]
+        attrs:
+          - {use: fact_event}
+          - period_state: $row.period_state
+            clinical_end_from: $end_lo
+            clinical_end_to: $end_hi
+            end_precision: $row.clinical_end_precision
+            end_derived_from: {if: {v: $end_lo, exists: true}, then: clinical end, else: start + reported duration}
+      - from: milestones
+        where: {all: [{v: $row.presence, eq: reached}, {v: $lo, exists: true}]}
+        id: "e:{patient}:ms:{row.anchor}"
+        activity: "Reach{row.anchor|camel}"
+        time: {fn: anchor, args: [$lo, $hi, $param.time_anchor]}
+        e2o:
+          - {object: {obj: "ms:{patient}:{row.anchor}"}, qualifier: subject}
+          - {where: {v: $param.perspectives, contains: Patient}, object: {ref: Patient}, qualifier: concerns}
+          - {where: {v: $param.perspectives, contains: PatientCondition}, object: $journey, qualifier: in_journey}
+        attrs:
+          precision: $row.precision
+          clinical_from: $lo
+          clinical_to: $hi
+          resource:                    # P5: the reporters of the facts whose start dates the milestone
+            with:
+              reporters:
+                agg: unique_sorted
+                over: $row.timing_event_ids
+                item: {in_source: facts, row: {index1: facts_by_short, key: $item}, expr: {def: fact_resource}}
+            expr: {if: {v: $reporters, exists: true}, then: "{reporters|join}"}
+
+    states_from_events:                # P4: object states that follow from events
+      - object_type: TreatmentCourse
+        attribute: status
+        qualifiers: [in_course, subject]
+        events: {StartTreatment: active, EndTreatment: stopped}
+        same_time_wins: stopped
+
+    reports:                           # what could not be mapped, and why
+      - {from: facts, where: {all: [{not: {v: {def: pure_change}}}, {v: $facets, exists: false}]},
+         label: "fact scoped to no condition"}
+      - {from: facts, where: {v: $row.status, not_in: $param.event_statuses}, label: "no event: status {row.status}"}
+      - {from: facts, where: {all: [{v: $row.source_type, ne: document}, {v: $row.reported_by, exists: false}]},
+         label: "fact without a reporter outside a document"}
+      - {from: facts, where: {all: [{v: $row.status, in: $param.event_statuses}, {v: $lo, exists: false}]},
+         label: "no event: temporally unresolved"}
+      - {from: facts, where: {all: [{v: $row.status, in: $param.event_statuses}, {v: $lo, gt: $row.disclosed_at|first19}]},
+         label: "no event: dated after it was reported"}
+      - {from: edges, where: {any: [{v: {def: edge_source}, exists: false}, {v: {def: edge_target}, exists: false}]},
+         label: "relation with an endpoint that is not an object"}
+      - {from: facts, where: {all: [{v: {def: occurred_fact}}, {v: {def: period_ends}}, {not: {v: {def: ends_before_start}}},
+                                    {v: {def: end_time}, exists: false}]},
+         label: "no end event: period {row.period_state}, end undated"}
+      - {from: facts, where: {all: [{v: {def: occurred_fact}}, {v: {def: ends_before_start}}]},
+         label: "no end event: ends before it starts"}
+      - {from: milestones, label: "milestone citations given as counts only"}
+      - {from: milestones, where: {v: $row.presence, ne: reached}, label: "no event: milestone {row.presence}"}
+      - {from: milestones, where: {all: [{v: $row.presence, eq: reached}, {v: $lo, exists: false}]},
+         label: "no event: milestone reached, undated"}
+      - from: _patient
+        kind: note
+        let: {n: {agg: count_distinct, over: $P.edges, item: "{item.basis}|{item.confidence}"}}
+        where: {all: [{v: $param.relations, eq: o2o}, {v: $n, gt: 1}]}
+        label: "{patient}: relations as plain O2O drop basis/confidence, which take {n} distinct values here"
+      - from: _patient
+        kind: note
+        let:
+          pairs:
+            agg: unique_sorted
+            over: $P.edges
+            where: {all: [{v: $item.edge, eq: CAUSES}, {v: {index: causes, key: "{item.target_id}>{item.source_id}"}, exists: true}]}
+            item: {fn: pair, args: [$item.source_id, $item.target_id]}
+        where: {v: $pairs, exists: true}
+        label: "{patient}: {pairs|len} two-way 'causes' cycles kept as stated: {pairs|join}"
+
+  # -------------------------------------------------------------------------------------------------------
+  # P0: the provenance log is on knowledge time: when each fact was reported or revised.
+  provenance:
+    enabled: $param.provenance_log
+    initial_time: first_event
+
+    object_types:
+      Patient: {id: "pat:{patient}"}
+      OnboardingSession: {id: "onbsession:{patient}:{args.session}"}
+
+    e2o_sets:
+      quotes:
+        - {each: {index: evidence_by_event, key: $row.event_id}, object: {def: quoted_source}, qualifier: quotes}
+
+    objects:
+      - {from: _patient, ref: {ref: Patient}}
+      - {from: marts_messages, id: "thread:{patient}:{row.thread}", type: Thread}
+      - from: marts_messages
+        id: "msg:{patient}:{row.message}"
+        type: Message
+        attrs: {role: $row.role, language: $row.language}
+        o2o: [{to: {obj: "thread:{patient}:{row.thread}"}, qualifier: in_thread}]
+      - from: marts_onboarding
+        id: "onb:{patient}:{row.step}"
+        type: OnboardingAnswer
+      - from: marts_documents
+        id: "doc:{patient}:{row.document}"
+        type: Document
+        attrs: {media_type: $row.type}
+      - {from: facts, id: $fact, type: {def: fact_type}}
+
+    events:
+      - from: marts_messages
+        id: "k:{patient}:msg:{row.message}"
+        activity: SendMessage
+        time: $row.sent_at
+        e2o:
+          - {object: {obj: "msg:{patient}:{row.message}"}, qualifier: subject}
+          - {object: {obj: "thread:{patient}:{row.thread}"}, qualifier: in_thread}
+          - {where: {v: $row.role, eq: USER}, object: {ref: Patient}, qualifier: author}
+        attrs: {role: $row.role}
+      - from: marts_onboarding
+        id: "k:{patient}:onb:{row.step}"
+        activity: SubmitOnboardingAnswer
+        time: $row.submitted_at
+        e2o: [{object: {obj: "onb:{patient}:{row.step}"}, qualifier: subject}, {object: {ref: Patient}, qualifier: author}]
+      - from: marts_documents
+        id: "k:{patient}:doc:{row.document}"
+        activity: UploadDocument
+        time: $row.uploaded_at
+        e2o: [{object: {obj: "doc:{patient}:{row.document}"}, qualifier: subject}, {object: {ref: Patient}, qualifier: uploader}]
+      - from: facts
+        let: {sup: {index1: supersession_by_new, key: $row.short_id}}
+        where: {v: $sup, exists: true}
+        id: "k:{patient}:rev:{row.short_id}"
+        activity: ReviseFact
+        time: $row.disclosed_at
+        e2o: [{object: {obj: $fact}, qualifier: subject}, {object: {ref: Patient}, qualifier: concerns}, {use: quotes}]
+        attrs: {action: $sup.action, prev_status: $sup.prev_status, prev_precision: $sup.prev_clinical_start_precision,
+                prev_clinical_from: $sup.prev_clinical_start|lo, prev_clinical_to: $sup.prev_clinical_start|hi,
+                prev_source_channel: $sup.prev_source_type}
+      - from: facts
+        where: {v: {index1: supersession_by_new, key: $row.short_id}, exists: false}
+        id: "k:{patient}:assert:{row.short_id}"
+        activity: AssertFact
+        time: $row.disclosed_at
+        e2o: [{object: {obj: $fact}, qualifier: subject}, {object: {ref: Patient}, qualifier: concerns}, {use: quotes}]
+        attrs: {source_channel: $row.source_type}
+
+    reports:
+      - {from: facts, where: {v: {index1: supersession_by_new, key: $row.short_id}, exists: true},
+         label: "provenance: first assertion of a revised fact has no time"}

@@ -1,0 +1,1637 @@
+{
+ "input": {
+  "patients": "patients",
+  "patient_id": "code",
+  "require": [
+   "gold_anchors"
+  ]
+ },
+ "params": {
+  "perspectives": [
+   "Patient",
+   "PatientCondition",
+   "TreatmentCourse"
+  ],
+  "min_lifecycle": 2,
+  "event_statuses": [
+   "occurred"
+  ],
+  "time_anchor": "lower",
+  "initial_time": "first_event",
+  "relations": "o2o",
+  "evidence": "attribute",
+  "evidence_text": false,
+  "change_types": "events_on_target",
+  "fact_object_types": "per_type",
+  "normalize_verbatim": true,
+  "provenance_log": true
+ },
+ "vocab": {
+  "change_fact_types": [
+   "DISEASE_STATUS"
+  ],
+  "course_fact_types": [
+   "TREATMENT"
+  ],
+  "period_end_states": [
+   "stopped",
+   "changed"
+  ],
+  "start_activity": {
+   "SYMPTOM": "StartSymptom",
+   "TREATMENT": "StartTreatment",
+   "ADVERSE_EVENT": "StartAdverseEvent",
+   "HOSPITALIZATION": "AdmitToHospital",
+   "DISEASE_STATUS": "ChangeDiseaseStatus",
+   "DIAGNOSIS": "ReceiveDiagnosis",
+   "DIAGNOSTIC_PROCEDURE": "UndergoDiagnosticProcedure",
+   "HCP_VISIT": "VisitHcp",
+   "INFORMATION_SEARCH": "SearchInformation"
+  },
+  "end_activity": {
+   "SYMPTOM": "EndSymptom",
+   "TREATMENT": "EndTreatment",
+   "ADVERSE_EVENT": "EndAdverseEvent",
+   "HOSPITALIZATION": "DischargeFromHospital"
+  },
+  "change_activity": {
+   "TREATMENT": "ChangeTreatment",
+   "SYMPTOM": "ChangeSymptom",
+   "ADVERSE_EVENT": "ChangeAdverseEvent"
+  },
+  "factor_attribute": {
+   "barrier": "barriers",
+   "driver": "motivators",
+   "motivator": "motivators",
+   "trigger": "triggers"
+  }
+ },
+ "sources": {
+  "facts": {
+   "table": "events_active",
+   "let": {
+    "payload": {
+     "fn": "json",
+     "args": [
+      "$row.payload"
+     ]
+    },
+    "lo": "$row.clinical_start|lo",
+    "hi": "$row.clinical_start|hi",
+    "t": {
+     "fn": "anchor",
+     "args": [
+      "$lo",
+      "$hi",
+      "$param.time_anchor"
+     ]
+    },
+    "end_lo": "$row.clinical_end|lo",
+    "end_hi": "$row.clinical_end|hi",
+    "facets": {
+     "fn": "split",
+     "args": [
+      "$row.facets",
+      ","
+     ]
+    },
+    "fact": "ce:{patient}:{row.lineage}"
+   }
+  },
+  "milestones": {
+   "table": "gold_anchors",
+   "let": {
+    "lo": "$row.time|lo",
+    "hi": "$row.time|hi",
+    "journey": {
+     "ref": "PatientCondition",
+     "args": {
+      "condition": "conditions.{row.condition_id}"
+     }
+    },
+    "factors": {
+     "fn": "factors",
+     "args": [
+      "$row.factors"
+     ]
+    }
+   }
+  }
+ },
+ "indexes": {
+  "facts_by_short": [
+   {
+    "from": "events_active",
+    "key": "$row.short_id"
+   }
+  ],
+  "supersession_by_new": [
+   {
+    "from": "supersessions",
+    "key": "$row.new_id"
+   }
+  ],
+  "evidence_by_event": [
+   {
+    "from": "evidence",
+    "each": "$row.source_refs",
+    "key": "$row.event_id",
+    "value": {
+     "dict": {
+      "ref": "$item",
+      "span": "$row.span",
+      "text": "$row.text"
+     }
+    }
+   }
+  ],
+  "related": [
+   {
+    "from": "edges",
+    "key": "$row.source_id"
+   },
+   {
+    "from": "edges",
+    "key": "$row.target_id"
+   }
+  ],
+  "causes": [
+   {
+    "from": "edges",
+    "where": {
+     "v": "$row.edge",
+     "eq": "CAUSES"
+    },
+    "key": "{row.source_id}>{row.target_id}"
+   }
+  ]
+ },
+ "defs": {
+  "course": {
+   "find": "TreatmentCourse",
+   "where": {
+    "v": "$cand.row.source_event_ids",
+    "contains": "$row.short_id"
+   }
+  },
+  "materialisable": {
+   "test": {
+    "all": [
+     {
+      "v": "$row.status",
+      "in": "$param.event_statuses"
+     },
+     {
+      "v": "$lo",
+      "exists": true
+     },
+     {
+      "v": "$lo",
+      "le": "$row.disclosed_at|first19"
+     }
+    ]
+   }
+  },
+  "change_target": {
+   "if": {
+    "v": {
+     "fn": "len",
+     "args": [
+      "$facets"
+     ]
+    },
+    "eq": 1
+   },
+   "then": {
+    "ref": "PatientCondition",
+    "args": {
+     "condition": "$facets.0"
+    }
+   }
+  },
+  "change_event": {
+   "test": {
+    "all": [
+     {
+      "v": "$param.change_types",
+      "eq": "events_on_target"
+     },
+     {
+      "v": "$row.event_type",
+      "in": "$vocab.change_fact_types"
+     },
+     {
+      "v": {
+       "def": "materialisable"
+      }
+     },
+     {
+      "v": {
+       "def": "change_target"
+      },
+      "exists": true
+     }
+    ]
+   }
+  },
+  "pure_change": {
+   "test": {
+    "all": [
+     {
+      "v": {
+       "def": "change_event"
+      }
+     },
+     {
+      "not": {
+       "v": {
+        "index": "related",
+        "key": "$row.short_id"
+       },
+       "exists": true
+      }
+     }
+    ]
+   }
+  },
+  "regular_event": {
+   "test": {
+    "all": [
+     {
+      "v": {
+       "def": "materialisable"
+      }
+     },
+     {
+      "not": {
+       "v": {
+        "def": "change_event"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "occurred_fact": {
+   "test": {
+    "all": [
+     {
+      "v": "$row.status",
+      "in": "$param.event_statuses"
+     },
+     {
+      "not": {
+       "v": {
+        "def": "change_event"
+       }
+      }
+     }
+    ]
+   }
+  },
+  "period_ends": {
+   "test": {
+    "any": [
+     {
+      "v": "$row.period_state",
+      "in": "$vocab.period_end_states"
+     },
+     {
+      "all": [
+       {
+        "v": "$row.period_state",
+        "ne": "ongoing"
+       },
+       {
+        "v": {
+         "def": "stated_duration"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "stated_duration": {
+   "test": {
+    "all": [
+     {
+      "v": {
+       "fn": "is_number",
+       "args": [
+        "$payload.duration_days"
+       ]
+      }
+     },
+     {
+      "v": "$payload.duration_days",
+      "gt": 0
+     }
+    ]
+   }
+  },
+  "end_time": {
+   "switch": [
+    {
+     "when": {
+      "all": [
+       {
+        "v": "$end_lo",
+        "exists": true
+       },
+       {
+        "not": {
+         "v": {
+          "def": "ends_before_start"
+         }
+        }
+       }
+      ]
+     },
+     "then": {
+      "fn": "anchor",
+      "args": [
+       "$end_lo",
+       "$end_hi",
+       "$param.time_anchor"
+      ]
+     }
+    },
+    {
+     "when": {
+      "all": [
+       {
+        "v": "$row.period_state",
+        "ne": "changed"
+       },
+       {
+        "v": {
+         "def": "stated_duration"
+        }
+       }
+      ]
+     },
+     "then": {
+      "fn": "date_add",
+      "args": [
+       "$lo",
+       "$payload.duration_days"
+      ]
+     }
+    }
+   ],
+   "default": null
+  },
+  "ends_before_start": {
+   "test": {
+    "all": [
+     {
+      "v": "$lo",
+      "exists": true
+     },
+     {
+      "v": "$end_lo",
+      "exists": true
+     },
+     {
+      "v": "$end_lo",
+      "lt": "$lo"
+     }
+    ]
+   }
+  },
+  "fact_resource": {
+   "if": {
+    "v": "$row.source_type",
+    "eq": "document"
+   },
+   "then": "document",
+   "else": "$row.reported_by"
+  },
+  "fact_type": {
+   "if": {
+    "v": "$param.fact_object_types",
+    "eq": "per_type"
+   },
+   "then": "{row.event_type|camel}",
+   "else": "ClinicalFact"
+  },
+  "edge_source": {
+   "with": {
+    "f": {
+     "index1": "facts_by_short",
+     "key": "$row.source_id"
+    }
+   },
+   "expr": {
+    "obj": "ce:{patient}:{f.lineage}"
+   }
+  },
+  "edge_target": {
+   "with": {
+    "f": {
+     "index1": "facts_by_short",
+     "key": "$row.target_id"
+    }
+   },
+   "expr": {
+    "obj": "ce:{patient}:{f.lineage}"
+   }
+  },
+  "quoted_source": {
+   "switch": [
+    {
+     "when": {
+      "v": "$item.ref|before_colon",
+      "eq": "message"
+     },
+     "then": {
+      "obj": "msg:{patient}:{item.ref|after_colon|first8}"
+     }
+    },
+    {
+     "when": {
+      "v": "$item.ref|before_colon",
+      "eq": "document"
+     },
+     "then": {
+      "obj": "doc:{patient}:{item.ref|after_colon|first8}"
+     }
+    },
+    {
+     "when": {
+      "v": "$item.ref|before_colon",
+      "eq": "onboarding"
+     },
+     "then": {
+      "ref": "OnboardingSession",
+      "args": {
+       "session": "$item.ref|after_colon|first8"
+      }
+     }
+    }
+   ],
+   "default": null
+  }
+ },
+ "logs": {
+  "journey": {
+   "initial_time": "$param.initial_time",
+   "object_types": {
+    "Patient": {
+     "id": "pat:{patient}",
+     "attrs": {
+      "sex": "$P.marts_attributes.0.gender",
+      "birth_year": "$P.marts_attributes.0.birth_year",
+      "country": "$P.marts_attributes.0.country_alpha3"
+     }
+    },
+    "PatientCondition": {
+     "id": "pc:{patient}:{args.condition|after_dot}",
+     "attrs": {
+      "condition_code": "$args.condition"
+     },
+     "o2o": [
+      {
+       "to": {
+        "ref": "Patient"
+       },
+       "qualifier": "of_patient"
+      }
+     ]
+    }
+   },
+   "attr_sets": {
+    "evidence": {
+     "evidence_refs": {
+      "if": {
+       "v": "$param.evidence",
+       "eq": "attribute"
+      },
+      "then": {
+       "agg": "join",
+       "sep": "; ",
+       "over": {
+        "index": "evidence_by_event",
+        "key": "$row.event_id"
+       },
+       "item": "{item.ref|before_colon}:{item.ref|after_colon|first8}{item.span}"
+      }
+     },
+     "evidence_text": {
+      "if": {
+       "all": [
+        {
+         "v": "$param.evidence",
+         "eq": "attribute"
+        },
+        {
+         "v": "$param.evidence_text"
+        }
+       ]
+      },
+      "then": {
+       "agg": "join",
+       "sep": " | ",
+       "over": {
+        "index": "evidence_by_event",
+        "key": "$row.event_id"
+       },
+       "item": "$item.text"
+      }
+     }
+    },
+    "fact_event": {
+     "precision": "$row.clinical_start_precision",
+     "clinical_from": "$lo",
+     "clinical_to": "$hi",
+     "reported_at": "$row.disclosed_at",
+     "resource": {
+      "def": "fact_resource"
+     }
+    }
+   },
+   "e2o_sets": {
+    "perspectives": [
+     {
+      "where": {
+       "v": "$param.perspectives",
+       "contains": "Patient"
+      },
+      "object": {
+       "ref": "Patient"
+      },
+      "qualifier": "concerns"
+     },
+     {
+      "where": {
+       "v": "$param.perspectives",
+       "contains": "PatientCondition"
+      },
+      "each": "$facets",
+      "object": {
+       "ref": "PatientCondition",
+       "args": {
+        "condition": "$item"
+       }
+      },
+      "qualifier": "in_journey"
+     },
+     {
+      "where": {
+       "all": [
+        {
+         "v": "$param.perspectives",
+         "contains": "TreatmentCourse"
+        },
+        {
+         "v": "$row.event_type",
+         "in": "$vocab.course_fact_types"
+        },
+        {
+         "v": {
+          "def": "course"
+         },
+         "ne": "$subject"
+        }
+       ]
+      },
+      "object": {
+       "def": "course"
+      },
+      "qualifier": "in_course"
+     }
+    ]
+   },
+   "objects": [
+    {
+     "from": "_patient",
+     "ref": {
+      "ref": "Patient"
+     }
+    },
+    {
+     "from": "gold_episodes",
+     "id": "tc:{patient}:{i}",
+     "type": "TreatmentCourse",
+     "attrs": {
+      "treatment_code": "$row.treatment",
+      "treatment_label": "$row.verbatim|verbatim",
+      "seq": "$row.seq"
+     },
+     "o2o": [
+      {
+       "to": {
+        "ref": "PatientCondition",
+        "args": {
+         "condition": "conditions.{row.condition_id}"
+        }
+       },
+       "qualifier": "in_journey"
+      }
+     ]
+    },
+    {
+     "from": "facts",
+     "where": {
+      "not": {
+       "v": {
+        "def": "pure_change"
+       }
+      }
+     },
+     "id": "$fact",
+     "type": {
+      "def": "fact_type"
+     },
+     "attrs": [
+      {
+       "status": "$row.status",
+       "precision": "$row.clinical_start_precision",
+       "clinical_from": "$lo",
+       "clinical_to": "$hi",
+       "source_channel": "$row.source_type",
+       "reporter": "$row.reported_by",
+       "confidence": "$row.confidence",
+       "is_inferred": "$row.is_inferred",
+       "fact_type": {
+        "if": {
+         "v": "$param.fact_object_types",
+         "ne": "per_type"
+        },
+        "then": "$row.event_type"
+       }
+      },
+      {
+       "spread": "$payload",
+       "exclude": {
+        "agg": "list",
+        "over": "$payload",
+        "where": {
+         "v": "$item",
+         "matches": "_resolved_from$"
+        }
+       },
+       "map": {
+        "*_verbatim": "verbatim"
+       }
+      },
+      {
+       "use": "evidence"
+      }
+     ],
+     "o2o": [
+      {
+       "each": "$facets",
+       "to": {
+        "ref": "PatientCondition",
+        "args": {
+         "condition": "$item"
+        }
+       },
+       "qualifier": "in_journey"
+      },
+      {
+       "where": {
+        "v": "$row.event_type",
+        "in": "$vocab.course_fact_types"
+       },
+       "to": {
+        "def": "course"
+       },
+       "qualifier": "in_course"
+      }
+     ]
+    },
+    {
+     "from": "edges",
+     "where": {
+      "all": [
+       {
+        "v": "$param.relations",
+        "ne": "o2o"
+       },
+       {
+        "v": {
+         "def": "edge_source"
+        },
+        "exists": true
+       },
+       {
+        "v": {
+         "def": "edge_target"
+        },
+        "exists": true
+       }
+      ]
+     },
+     "id": "rel:{patient}:{i}",
+     "type": "EventRelation",
+     "attrs": {
+      "edge": "$row.edge|lower",
+      "basis": "$row.basis",
+      "confidence": "$row.confidence"
+     },
+     "o2o": [
+      {
+       "to": {
+        "def": "edge_source"
+       },
+       "qualifier": "source"
+      },
+      {
+       "to": {
+        "def": "edge_target"
+       },
+       "qualifier": "target"
+      }
+     ]
+    },
+    {
+     "from": "milestones",
+     "id": "ms:{patient}:{row.anchor}",
+     "type": "Milestone",
+     "attrs": [
+      {
+       "milestone_type": "$row.anchor",
+       "category": "$row.category",
+       "presence": "$row.presence",
+       "clinical_from": "$lo",
+       "clinical_to": "$hi",
+       "precision": "$row.precision"
+      },
+      {
+       "barriers": {
+        "agg": "join",
+        "sep": ", ",
+        "over": "$factors",
+        "item": "$item.code",
+        "where": {
+         "v": {
+          "lookup": "$vocab.factor_attribute",
+          "key": "$item.kind"
+         },
+         "eq": "barriers"
+        }
+       },
+       "motivators": {
+        "agg": "join",
+        "sep": ", ",
+        "over": "$factors",
+        "item": "$item.code",
+        "where": {
+         "v": {
+          "lookup": "$vocab.factor_attribute",
+          "key": "$item.kind"
+         },
+         "eq": "motivators"
+        }
+       },
+       "triggers": {
+        "agg": "join",
+        "sep": ", ",
+        "over": "$factors",
+        "item": "$item.code",
+        "where": {
+         "v": {
+          "lookup": "$vocab.factor_attribute",
+          "key": "$item.kind"
+         },
+         "eq": "triggers"
+        }
+       }
+      }
+     ],
+     "o2o": [
+      {
+       "to": "$journey",
+       "qualifier": "in_journey"
+      }
+     ]
+    }
+   ],
+   "o2o": [
+    {
+     "from": "edges",
+     "where": {
+      "v": "$param.relations",
+      "eq": "o2o"
+     },
+     "from_object": {
+      "def": "edge_source"
+     },
+     "to": {
+      "def": "edge_target"
+     },
+     "qualifier": "$row.edge|lower"
+    },
+    {
+     "from": "gold_transitions",
+     "from_object": {
+      "obj": "ms:{patient}:{row.source}"
+     },
+     "to": {
+      "obj": "ms:{patient}:{row.target}"
+     },
+     "qualifier": "followed_by"
+    }
+   ],
+   "attributes": [
+    {
+     "from": "characteristics",
+     "object": {
+      "ref": "PatientCondition",
+      "args": {
+       "condition": "$row.condition"
+      }
+     },
+     "attrs": {
+      "{row.characteristic}": "$row.value"
+     }
+    },
+    {
+     "from": "gold_labels",
+     "object": {
+      "ref": "PatientCondition",
+      "args": {
+       "condition": "conditions.{row.condition_id}"
+      }
+     },
+     "attrs": {
+      "labels": "$row.label"
+     },
+     "collect": [
+      "labels"
+     ]
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": "$row.event_type",
+        "eq": "DISEASE_STATUS"
+       },
+       {
+        "v": {
+         "def": "change_event"
+        }
+       }
+      ]
+     },
+     "object": {
+      "def": "change_target"
+     },
+     "time": "$t",
+     "attrs": {
+      "disease_status": "$payload.status_value"
+     }
+    }
+   ],
+   "events": [
+    {
+     "from": "facts",
+     "where": {
+      "v": {
+       "def": "change_event"
+      }
+     },
+     "id": "e:{patient}:{row.short_id}",
+     "activity": {
+      "lookup": "$vocab.start_activity",
+      "key": "$row.event_type"
+     },
+     "time": "$t",
+     "subject": {
+      "def": "change_target"
+     },
+     "e2o": [
+      {
+       "object": "$subject",
+       "qualifier": "subject"
+      },
+      {
+       "use": "perspectives"
+      },
+      {
+       "object": {
+        "obj": "$fact"
+       },
+       "qualifier": "recorded_as"
+      }
+     ],
+     "attrs": [
+      {
+       "use": "fact_event"
+      },
+      {
+       "spread": "$payload",
+       "scalars_only": true,
+       "map": {
+        "*_verbatim": "verbatim"
+       }
+      },
+      {
+       "use": "evidence"
+      }
+     ]
+    },
+    {
+     "from": "facts",
+     "where": {
+      "v": {
+       "def": "regular_event"
+      }
+     },
+     "let": {
+      "end": {
+       "lookup": "$vocab.end_activity",
+       "key": "$row.event_type"
+      }
+     },
+     "id": {
+      "if": {
+       "v": "$end",
+       "exists": true
+      },
+      "then": "e:{patient}:{row.short_id}:start",
+      "else": "e:{patient}:{row.short_id}"
+     },
+     "activity": {
+      "lookup": "$vocab.start_activity",
+      "key": "$row.event_type",
+      "default": "{row.event_type|camel}"
+     },
+     "time": "$t",
+     "subject": {
+      "obj": "$fact"
+     },
+     "e2o": [
+      {
+       "object": "$subject",
+       "qualifier": "subject"
+      },
+      {
+       "use": "perspectives"
+      }
+     ],
+     "attrs": [
+      {
+       "use": "fact_event"
+      }
+     ]
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": {
+         "def": "occurred_fact"
+        }
+       },
+       {
+        "v": {
+         "def": "period_ends"
+        }
+       }
+      ]
+     },
+     "let": {
+      "changed": {
+       "test": {
+        "v": "$row.period_state",
+        "eq": "changed"
+       }
+      }
+     },
+     "id": {
+      "if": {
+       "v": "$changed"
+      },
+      "then": "e:{patient}:{row.short_id}:change",
+      "else": "e:{patient}:{row.short_id}:end"
+     },
+     "activity": {
+      "if": {
+       "v": "$changed"
+      },
+      "then": {
+       "lookup": "$vocab.change_activity",
+       "key": "$row.event_type",
+       "default": "Change{row.event_type|camel}"
+      },
+      "else": {
+       "lookup": "$vocab.end_activity",
+       "key": "$row.event_type",
+       "default": "End{row.event_type|camel}"
+      }
+     },
+     "time": {
+      "def": "end_time"
+     },
+     "subject": {
+      "obj": "$fact"
+     },
+     "e2o": [
+      {
+       "object": "$subject",
+       "qualifier": "subject"
+      },
+      {
+       "use": "perspectives"
+      }
+     ],
+     "attrs": [
+      {
+       "use": "fact_event"
+      },
+      {
+       "period_state": "$row.period_state",
+       "clinical_end_from": "$end_lo",
+       "clinical_end_to": "$end_hi",
+       "end_precision": "$row.clinical_end_precision",
+       "end_derived_from": {
+        "if": {
+         "v": "$end_lo",
+         "exists": true
+        },
+        "then": "clinical end",
+        "else": "start + reported duration"
+       }
+      }
+     ]
+    },
+    {
+     "from": "milestones",
+     "where": {
+      "all": [
+       {
+        "v": "$row.presence",
+        "eq": "reached"
+       },
+       {
+        "v": "$lo",
+        "exists": true
+       }
+      ]
+     },
+     "id": "e:{patient}:ms:{row.anchor}",
+     "activity": "Reach{row.anchor|camel}",
+     "time": {
+      "fn": "anchor",
+      "args": [
+       "$lo",
+       "$hi",
+       "$param.time_anchor"
+      ]
+     },
+     "e2o": [
+      {
+       "object": {
+        "obj": "ms:{patient}:{row.anchor}"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "where": {
+        "v": "$param.perspectives",
+        "contains": "Patient"
+       },
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "concerns"
+      },
+      {
+       "where": {
+        "v": "$param.perspectives",
+        "contains": "PatientCondition"
+       },
+       "object": "$journey",
+       "qualifier": "in_journey"
+      }
+     ],
+     "attrs": {
+      "precision": "$row.precision",
+      "clinical_from": "$lo",
+      "clinical_to": "$hi",
+      "resource": {
+       "with": {
+        "reporters": {
+         "agg": "unique_sorted",
+         "over": "$row.timing_event_ids",
+         "item": {
+          "in_source": "facts",
+          "row": {
+           "index1": "facts_by_short",
+           "key": "$item"
+          },
+          "expr": {
+           "def": "fact_resource"
+          }
+         }
+        }
+       },
+       "expr": {
+        "if": {
+         "v": "$reporters",
+         "exists": true
+        },
+        "then": "{reporters|join}"
+       }
+      }
+     }
+    }
+   ],
+   "states_from_events": [
+    {
+     "object_type": "TreatmentCourse",
+     "attribute": "status",
+     "qualifiers": [
+      "in_course",
+      "subject"
+     ],
+     "events": {
+      "StartTreatment": "active",
+      "EndTreatment": "stopped"
+     },
+     "same_time_wins": "stopped"
+    }
+   ],
+   "reports": [
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "not": {
+         "v": {
+          "def": "pure_change"
+         }
+        }
+       },
+       {
+        "v": "$facets",
+        "exists": false
+       }
+      ]
+     },
+     "label": "fact scoped to no condition"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "v": "$row.status",
+      "not_in": "$param.event_statuses"
+     },
+     "label": "no event: status {row.status}"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": "$row.source_type",
+        "ne": "document"
+       },
+       {
+        "v": "$row.reported_by",
+        "exists": false
+       }
+      ]
+     },
+     "label": "fact without a reporter outside a document"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": "$row.status",
+        "in": "$param.event_statuses"
+       },
+       {
+        "v": "$lo",
+        "exists": false
+       }
+      ]
+     },
+     "label": "no event: temporally unresolved"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": "$row.status",
+        "in": "$param.event_statuses"
+       },
+       {
+        "v": "$lo",
+        "gt": "$row.disclosed_at|first19"
+       }
+      ]
+     },
+     "label": "no event: dated after it was reported"
+    },
+    {
+     "from": "edges",
+     "where": {
+      "any": [
+       {
+        "v": {
+         "def": "edge_source"
+        },
+        "exists": false
+       },
+       {
+        "v": {
+         "def": "edge_target"
+        },
+        "exists": false
+       }
+      ]
+     },
+     "label": "relation with an endpoint that is not an object"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": {
+         "def": "occurred_fact"
+        }
+       },
+       {
+        "v": {
+         "def": "period_ends"
+        }
+       },
+       {
+        "not": {
+         "v": {
+          "def": "ends_before_start"
+         }
+        }
+       },
+       {
+        "v": {
+         "def": "end_time"
+        },
+        "exists": false
+       }
+      ]
+     },
+     "label": "no end event: period {row.period_state}, end undated"
+    },
+    {
+     "from": "facts",
+     "where": {
+      "all": [
+       {
+        "v": {
+         "def": "occurred_fact"
+        }
+       },
+       {
+        "v": {
+         "def": "ends_before_start"
+        }
+       }
+      ]
+     },
+     "label": "no end event: ends before it starts"
+    },
+    {
+     "from": "milestones",
+     "label": "milestone citations given as counts only"
+    },
+    {
+     "from": "milestones",
+     "where": {
+      "v": "$row.presence",
+      "ne": "reached"
+     },
+     "label": "no event: milestone {row.presence}"
+    },
+    {
+     "from": "milestones",
+     "where": {
+      "all": [
+       {
+        "v": "$row.presence",
+        "eq": "reached"
+       },
+       {
+        "v": "$lo",
+        "exists": false
+       }
+      ]
+     },
+     "label": "no event: milestone reached, undated"
+    },
+    {
+     "from": "_patient",
+     "kind": "note",
+     "let": {
+      "n": {
+       "agg": "count_distinct",
+       "over": "$P.edges",
+       "item": "{item.basis}|{item.confidence}"
+      }
+     },
+     "where": {
+      "all": [
+       {
+        "v": "$param.relations",
+        "eq": "o2o"
+       },
+       {
+        "v": "$n",
+        "gt": 1
+       }
+      ]
+     },
+     "label": "{patient}: relations as plain O2O drop basis/confidence, which take {n} distinct values here"
+    },
+    {
+     "from": "_patient",
+     "kind": "note",
+     "let": {
+      "pairs": {
+       "agg": "unique_sorted",
+       "over": "$P.edges",
+       "where": {
+        "all": [
+         {
+          "v": "$item.edge",
+          "eq": "CAUSES"
+         },
+         {
+          "v": {
+           "index": "causes",
+           "key": "{item.target_id}>{item.source_id}"
+          },
+          "exists": true
+         }
+        ]
+       },
+       "item": {
+        "fn": "pair",
+        "args": [
+         "$item.source_id",
+         "$item.target_id"
+        ]
+       }
+      }
+     },
+     "where": {
+      "v": "$pairs",
+      "exists": true
+     },
+     "label": "{patient}: {pairs|len} two-way 'causes' cycles kept as stated: {pairs|join}"
+    }
+   ]
+  },
+  "provenance": {
+   "enabled": "$param.provenance_log",
+   "initial_time": "first_event",
+   "object_types": {
+    "Patient": {
+     "id": "pat:{patient}"
+    },
+    "OnboardingSession": {
+     "id": "onbsession:{patient}:{args.session}"
+    }
+   },
+   "e2o_sets": {
+    "quotes": [
+     {
+      "each": {
+       "index": "evidence_by_event",
+       "key": "$row.event_id"
+      },
+      "object": {
+       "def": "quoted_source"
+      },
+      "qualifier": "quotes"
+     }
+    ]
+   },
+   "objects": [
+    {
+     "from": "_patient",
+     "ref": {
+      "ref": "Patient"
+     }
+    },
+    {
+     "from": "marts_messages",
+     "id": "thread:{patient}:{row.thread}",
+     "type": "Thread"
+    },
+    {
+     "from": "marts_messages",
+     "id": "msg:{patient}:{row.message}",
+     "type": "Message",
+     "attrs": {
+      "role": "$row.role",
+      "language": "$row.language"
+     },
+     "o2o": [
+      {
+       "to": {
+        "obj": "thread:{patient}:{row.thread}"
+       },
+       "qualifier": "in_thread"
+      }
+     ]
+    },
+    {
+     "from": "marts_onboarding",
+     "id": "onb:{patient}:{row.step}",
+     "type": "OnboardingAnswer"
+    },
+    {
+     "from": "marts_documents",
+     "id": "doc:{patient}:{row.document}",
+     "type": "Document",
+     "attrs": {
+      "media_type": "$row.type"
+     }
+    },
+    {
+     "from": "facts",
+     "id": "$fact",
+     "type": {
+      "def": "fact_type"
+     }
+    }
+   ],
+   "events": [
+    {
+     "from": "marts_messages",
+     "id": "k:{patient}:msg:{row.message}",
+     "activity": "SendMessage",
+     "time": "$row.sent_at",
+     "e2o": [
+      {
+       "object": {
+        "obj": "msg:{patient}:{row.message}"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "object": {
+        "obj": "thread:{patient}:{row.thread}"
+       },
+       "qualifier": "in_thread"
+      },
+      {
+       "where": {
+        "v": "$row.role",
+        "eq": "USER"
+       },
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "author"
+      }
+     ],
+     "attrs": {
+      "role": "$row.role"
+     }
+    },
+    {
+     "from": "marts_onboarding",
+     "id": "k:{patient}:onb:{row.step}",
+     "activity": "SubmitOnboardingAnswer",
+     "time": "$row.submitted_at",
+     "e2o": [
+      {
+       "object": {
+        "obj": "onb:{patient}:{row.step}"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "author"
+      }
+     ]
+    },
+    {
+     "from": "marts_documents",
+     "id": "k:{patient}:doc:{row.document}",
+     "activity": "UploadDocument",
+     "time": "$row.uploaded_at",
+     "e2o": [
+      {
+       "object": {
+        "obj": "doc:{patient}:{row.document}"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "uploader"
+      }
+     ]
+    },
+    {
+     "from": "facts",
+     "let": {
+      "sup": {
+       "index1": "supersession_by_new",
+       "key": "$row.short_id"
+      }
+     },
+     "where": {
+      "v": "$sup",
+      "exists": true
+     },
+     "id": "k:{patient}:rev:{row.short_id}",
+     "activity": "ReviseFact",
+     "time": "$row.disclosed_at",
+     "e2o": [
+      {
+       "object": {
+        "obj": "$fact"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "concerns"
+      },
+      {
+       "use": "quotes"
+      }
+     ],
+     "attrs": {
+      "action": "$sup.action",
+      "prev_status": "$sup.prev_status",
+      "prev_precision": "$sup.prev_clinical_start_precision",
+      "prev_clinical_from": "$sup.prev_clinical_start|lo",
+      "prev_clinical_to": "$sup.prev_clinical_start|hi",
+      "prev_source_channel": "$sup.prev_source_type"
+     }
+    },
+    {
+     "from": "facts",
+     "where": {
+      "v": {
+       "index1": "supersession_by_new",
+       "key": "$row.short_id"
+      },
+      "exists": false
+     },
+     "id": "k:{patient}:assert:{row.short_id}",
+     "activity": "AssertFact",
+     "time": "$row.disclosed_at",
+     "e2o": [
+      {
+       "object": {
+        "obj": "$fact"
+       },
+       "qualifier": "subject"
+      },
+      {
+       "object": {
+        "ref": "Patient"
+       },
+       "qualifier": "concerns"
+      },
+      {
+       "use": "quotes"
+      }
+     ],
+     "attrs": {
+      "source_channel": "$row.source_type"
+     }
+    }
+   ],
+   "reports": [
+    {
+     "from": "facts",
+     "where": {
+      "v": {
+       "index1": "supersession_by_new",
+       "key": "$row.short_id"
+      },
+      "exists": true
+     },
+     "label": "provenance: first assertion of a revised fact has no time"
+    }
+   ]
+  }
+ }
+}

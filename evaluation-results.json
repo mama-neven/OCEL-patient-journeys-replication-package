@@ -1,0 +1,866 @@
+{
+ "inputs": {
+  "journey log": {
+   "file": "logs/cohort-journey.ocel.json",
+   "sha256": "e9bdf9fdaab068d7d84e1174a9a8244db174fff3b47ea259a451ad72ebdb5daf"
+  },
+  "provenance log": {
+   "file": "logs/cohort-provenance.ocel.json",
+   "sha256": "ab33edfc2e975a1a90d330888e168a5c5987a09d5d8ec823503a3fb2460a3ecc"
+  },
+  "build report": {
+   "file": "logs/cohort-build-report.json",
+   "sha256": "2c99263ab9f34c45607fceabf6d21d89323bc24da8fea5be0398b66384c422b3"
+  },
+  "mapping": {
+   "file": "pj2ocel/mapping.yaml",
+   "sha256": "1b9d5c9813dc1215ba372a00e07398899b48992d0a69276cb84c312fddc20ed9"
+  },
+  "quality report": {
+   "file": "logs/cohort-quality.md",
+   "sha256": "58abcc52976843f9973c9a9b5cee0e95fc884e4fcea4eb4c26d116d164b77e12"
+  }
+ },
+ "environment": {
+  "Python": "3.14.6",
+  "PM4Py": "2.7.23.12",
+  "pandas": "3.1.1",
+  "NumPy": "2.5.4"
+ },
+ "results": [
+  {
+   "id": "RQ1.patients",
+   "result": "Patients in the cohort log",
+   "value": 280,
+   "checked against": "build report: cohort patients; distinct patients of the journey events"
+  },
+  {
+   "id": "RQ1.patients_left_out",
+   "result": "Exported patients left out whole (no journey summary, P10)",
+   "value": 4,
+   "checked against": "build report: patients with 'patient left out'"
+  },
+  {
+   "id": "RQ1.patients_exported",
+   "result": "Patients in the export",
+   "value": 284,
+   "checked against": "patients in the journey log plus patients labelled 'patient left out'"
+  },
+  {
+   "id": "RQ1.events",
+   "result": "Events in the journey log",
+   "value": 10364,
+   "checked against": "PM4Py import; build report"
+  },
+  {
+   "id": "RQ1.fact_events",
+   "result": "Fact events (activities other than Reach*)",
+   "value": 8364,
+   "checked against": "events carrying reported_at (only fact events have it)"
+  },
+  {
+   "id": "RQ1.milestone_events",
+   "result": "Milestone events (Reach*)",
+   "value": 2000,
+   "checked against": "build report: milestones minus milestones without event"
+  },
+  {
+   "id": "RQ1.objects",
+   "result": "Objects in the journey log",
+   "value": 17706,
+   "checked against": "build report"
+  },
+  {
+   "id": "RQ1.event_types",
+   "result": "Event types (activities)",
+   "value": 30,
+   "checked against": "PM4Py: distinct activities; build report"
+  },
+  {
+   "id": "RQ1.object_types",
+   "result": "Object types",
+   "value": 13,
+   "checked against": "distinct types of the objects; build report"
+  },
+  {
+   "id": "RQ1.e2o",
+   "result": "Event-to-object relationships (E2O)",
+   "value": 30028,
+   "checked against": "build report"
+  },
+  {
+   "id": "RQ1.o2o",
+   "result": "Object-to-object relationships (O2O)",
+   "value": 21686,
+   "checked against": "build report"
+  },
+  {
+   "id": "RQ1.provenance_events",
+   "result": "Events in the provenance log",
+   "value": 29179,
+   "checked against": "PM4Py import"
+  },
+  {
+   "id": "RQ1.provenance_objects",
+   "result": "Objects in the provenance log",
+   "value": 30553,
+   "checked against": "PM4Py import (every provenance object has an event)"
+  },
+  {
+   "id": "RQ1.checker_self_test",
+   "result": "Format rules that detect exactly their seeded fault",
+   "value": 17,
+   "checked against": "rules in the checker"
+  },
+  {
+   "id": "RQ1.format_violations",
+   "result": "OCEL 2.0 JSON format violations, both logs",
+   "value": 0,
+   "checked against": "events PM4Py failed to read, both logs (file events minus imported events)"
+  },
+  {
+   "id": "RQ1.objects_without_event",
+   "result": "Journey objects without any event (left out by PM4Py)",
+   "value": 6771,
+   "checked against": "build report: objects never referenced by an event; file objects minus PM4Py objects"
+  },
+  {
+   "id": "RQ1.e2o_second_qualifier",
+   "result": "E2O relationships repeating an (event, object) pair (merged by PM4Py)",
+   "value": 153,
+   "checked against": "file E2O minus PM4Py relations"
+  },
+  {
+   "id": "RQ1.o2o_not_in_pm4py",
+   "result": "O2O relationships with an endpoint without events (left out by PM4Py)",
+   "value": 4712,
+   "checked against": "file O2O minus PM4Py O2O"
+  },
+  {
+   "id": "RQ1.fact_records",
+   "result": "Facts reported (assertions in the provenance log)",
+   "value": 13684,
+   "checked against": "fact objects plus change events without a fact object; sum of the categories above"
+  },
+  {
+   "id": "RQ1.facts_with_event",
+   "result": "Facts with a start event (object and event)",
+   "value": 7274,
+   "checked against": "start events of the journey log minus change events without a fact object"
+  },
+  {
+   "id": "RQ1.facts_change_only",
+   "result": "Facts that are a change event on their journey, without own object",
+   "value": 72,
+   "checked against": "provenance facts that are not journey objects"
+  },
+  {
+   "id": "RQ1.facts_negated",
+   "result": "Facts negated (object, no event)",
+   "value": 5024,
+   "checked against": "build report: no event: status negated"
+  },
+  {
+   "id": "RQ1.facts_intended",
+   "result": "Facts intended (object, no event)",
+   "value": 353,
+   "checked against": "build report: no event: status intended"
+  },
+  {
+   "id": "RQ1.facts_unresolved",
+   "result": "Facts that occurred without a resolved start (object, no start event)",
+   "value": 956,
+   "checked against": "build report: no event: temporally unresolved"
+  },
+  {
+   "id": "RQ1.facts_after_report",
+   "result": "Facts dated after they were reported (object, no event)",
+   "value": 5,
+   "checked against": "build report: no event: dated after it was reported"
+  },
+  {
+   "id": "RQ1.facts_without_event_pct",
+   "result": "Facts kept as objects without a start event (%)",
+   "value": 46.3,
+   "checked against": "100 x (facts - start events) / facts"
+  },
+  {
+   "id": "RQ1.milestones",
+   "result": "Milestone objects",
+   "value": 2267,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ1.milestones_undated",
+   "result": "Milestones reached but undated (object, no event)",
+   "value": 157,
+   "checked against": "build report: no event: milestone reached, undated"
+  },
+  {
+   "id": "RQ2.R1.traceable_events",
+   "result": "Fact events traceable to a source",
+   "value": 8364,
+   "checked against": "evidence references resolved in the provenance log"
+  },
+  {
+   "id": "RQ2.R1.traceable_events_pct",
+   "result": "Fact events traceable to a source (%)",
+   "value": 100.0,
+   "checked against": "evidence references resolved (%)"
+  },
+  {
+   "id": "RQ2.R1.documents_uploaded",
+   "result": "Documents uploaded",
+   "value": 446,
+   "checked against": "Document objects in the provenance log"
+  },
+  {
+   "id": "RQ2.R1.facts_from_documents",
+   "result": "Facts quoting a document",
+   "value": 0,
+   "checked against": "fact objects whose source channel is a document"
+  },
+  {
+   "id": "RQ2.R1.revised_facts",
+   "result": "Facts revised after their first report (ReviseFact)",
+   "value": 3,
+   "checked against": "build report: provenance: first assertion of a revised fact has no time"
+  },
+  {
+   "id": "RQ2.R1.delay_median_years",
+   "result": "Reporting delay of fact events, median (years)",
+   "value": 3.2,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R1.delay_q1_years",
+   "result": "Reporting delay, first quartile (years)",
+   "value": 0.9,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R1.delay_q3_years",
+   "result": "Reporting delay, third quartile (years)",
+   "value": 7.2,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R1.delay_over_1y_pct",
+   "result": "Fact events reported more than a year after they happened (%)",
+   "value": 73.5,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R1.delay_over_5y_pct",
+   "result": "Fact events reported more than five years after they happened (%)",
+   "value": 36.5,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R1.delay_negative",
+   "result": "Fact events timed after their report",
+   "value": 7,
+   "checked against": "provenance assertion time"
+  },
+  {
+   "id": "RQ2.R2.day_precision_pct",
+   "result": "Events dated to the day (%)",
+   "value": 21.3,
+   "checked against": "PM4Py events table"
+  },
+  {
+   "id": "RQ2.R2.month_precision_pct",
+   "result": "Events dated to the month (%)",
+   "value": 60.6,
+   "checked against": "PM4Py events table"
+  },
+  {
+   "id": "RQ2.R2.events_with_range_pct",
+   "result": "Events that keep the date range and precision of their time (%)",
+   "value": 100.0,
+   "checked against": "PM4Py events table"
+  },
+  {
+   "id": "RQ2.R2.coarser_than_day_pct",
+   "result": "Events dated more coarsely than to the day, or without precision (%)",
+   "value": 78.7,
+   "checked against": "PM4Py events table"
+  },
+  {
+   "id": "RQ2.R2.end_from_clinical_end",
+   "result": "End and change events dated from an end date in the sources",
+   "value": 1018,
+   "checked against": "events with suffix :end or :change; PM4Py events table"
+  },
+  {
+   "id": "RQ2.R2.end_from_duration",
+   "result": "End events dated from a stated duration (start + duration)",
+   "value": 0,
+   "checked against": "end and change events minus those dated from an end date"
+  },
+  {
+   "id": "RQ2.R2.tied_pairs_Patient_pct",
+   "result": "Directly-follows pairs of fact events with tied timestamps, Patient (%)",
+   "value": 31.0,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R2.tied_pairs_PatientCondition_pct",
+   "result": "Directly-follows pairs of fact events with tied timestamps, PatientCondition (%)",
+   "value": 30.8,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R2.tied_pairs_TreatmentCourse_pct",
+   "result": "Directly-follows pairs of fact events with tied timestamps, TreatmentCourse (%)",
+   "value": 29.9,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R3.coded_events",
+   "result": "Fact events whose fact type has a term",
+   "value": 7984,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R3.specific_pct",
+   "result": "Fact events with a specific code (%)",
+   "value": 92.2,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R3.catch_all_pct",
+   "result": "Fact events with a catch-all code (%)",
+   "value": 6.3,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R3.words_kept_pct",
+   "result": "Fact events whose fact keeps the patient's words (%)",
+   "value": 98.4,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R3.shared_pct",
+   "result": "Fact events with a specific code shared with another patient (%)",
+   "value": 92.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R3.distinct_codes",
+   "result": "Distinct specific codes",
+   "value": 121,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ2.R4.non_occurrence_with_event",
+   "result": "Negated or intended facts with an event",
+   "value": 0,
+   "checked against": "negated or intended facts in PM4Py's objects table"
+  },
+  {
+   "id": "RQ2.R4.milestones_not_reached",
+   "result": "Milestones explicitly not reached",
+   "value": 110,
+   "checked against": "build report: no event: milestone not_reached"
+  },
+  {
+   "id": "RQ2.R4.milestones_unknown",
+   "result": "Milestones unknown (patient x milestone type without an object)",
+   "value": 1933,
+   "checked against": "sum over milestone types"
+  },
+  {
+   "id": "RQ2.R4.milestone_types",
+   "result": "Milestone types",
+   "value": 15,
+   "checked against": "distinct Reach* activities"
+  },
+  {
+   "id": "RQ2.R5.objects_Patient",
+   "result": "Patient objects",
+   "value": 280,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.median_events_Patient",
+   "result": "Median events per Patient object",
+   "value": 35.0,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.fact_events_seen_Patient_pct",
+   "result": "Fact events related to a Patient object (%)",
+   "value": 100.0,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R5.dfg_edges_Patient",
+   "result": "Distinct directly-follows edges over fact events, Patient",
+   "value": 159,
+   "checked against": "PM4Py OC-DFG"
+  },
+  {
+   "id": "RQ2.R5.objects_PatientCondition",
+   "result": "PatientCondition objects",
+   "value": 800,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.median_events_PatientCondition",
+   "result": "Median events per PatientCondition object",
+   "value": 2.0,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.fact_events_seen_PatientCondition_pct",
+   "result": "Fact events related to a PatientCondition object (%)",
+   "value": 61.5,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R5.dfg_edges_PatientCondition",
+   "result": "Distinct directly-follows edges over fact events, PatientCondition",
+   "value": 143,
+   "checked against": "PM4Py OC-DFG"
+  },
+  {
+   "id": "RQ2.R5.objects_TreatmentCourse",
+   "result": "TreatmentCourse objects",
+   "value": 747,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.median_events_TreatmentCourse",
+   "result": "Median events per TreatmentCourse object",
+   "value": 2.0,
+   "checked against": "build report lifecycle"
+  },
+  {
+   "id": "RQ2.R5.fact_events_seen_TreatmentCourse_pct",
+   "result": "Fact events related to a TreatmentCourse object (%)",
+   "value": 24.4,
+   "checked against": "PM4Py relations"
+  },
+  {
+   "id": "RQ2.R5.dfg_edges_TreatmentCourse",
+   "result": "Distinct directly-follows edges over fact events, TreatmentCourse",
+   "value": 7,
+   "checked against": "PM4Py OC-DFG"
+  },
+  {
+   "id": "RQ2.R5.dfg_edges_Patient_milestones",
+   "result": "Distinct directly-follows edges over milestone events, Patient",
+   "value": 103,
+   "checked against": "PM4Py OC-DFG"
+  },
+  {
+   "id": "RQ2.R6.relations",
+   "result": "Relations between facts (O2O, structural links left out)",
+   "value": 7184,
+   "checked against": "build report O2O minus structural O2O"
+  },
+  {
+   "id": "RQ2.R6.qualifiers",
+   "result": "Distinct relation qualifiers",
+   "value": 8,
+   "checked against": "PM4Py O2O qualifiers outside the structural ones"
+  },
+  {
+   "id": "RQ2.R6.visible_pct",
+   "result": "Relations whose both ends have an event (%)",
+   "value": 89.0,
+   "checked against": "PM4Py O2O / relations in the file"
+  },
+  {
+   "id": "RQ2.R6.causes_both_dated",
+   "result": "'causes' relations whose two facts both have a start event",
+   "value": 1393,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.causes_source_first_pct",
+   "result": "'causes' relations: source first or same (% of those with both facts dated)",
+   "value": 92.4,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.causes_source_later_overlap_pct",
+   "result": "'causes' relations: source later, ranges overlap (% of those with both facts dated)",
+   "value": 7.6,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.causes_source_later_beyond_pct",
+   "result": "'causes' relations: source later, beyond the range (% of those with both facts dated)",
+   "value": 0.0,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.precedes_both_dated",
+   "result": "'precedes' relations whose two facts both have a start event",
+   "value": 2511,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.precedes_source_first_pct",
+   "result": "'precedes' relations: source first or same (% of those with both facts dated)",
+   "value": 95.9,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.precedes_source_later_overlap_pct",
+   "result": "'precedes' relations: source later, ranges overlap (% of those with both facts dated)",
+   "value": 4.1,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ2.R6.precedes_source_later_beyond_pct",
+   "result": "'precedes' relations: source later, beyond the range (% of those with both facts dated)",
+   "value": 0.0,
+   "checked against": "start events"
+  },
+  {
+   "id": "RQ3.flat_patient_events",
+   "result": "Events in the log flattened on Patient",
+   "value": 10364,
+   "checked against": "events in the journey log"
+  },
+  {
+   "id": "RQ3.fact_events_no_journey_pct",
+   "result": "Fact events that concern no journey (lost when the journey is the case) (%)",
+   "value": 38.5,
+   "checked against": "PM4Py: fact events absent from the flattening on PatientCondition (%)"
+  },
+  {
+   "id": "RQ3.fact_events_two_journeys",
+   "result": "Fact events that concern two or more journeys (copied when the journey is the case)",
+   "value": 30,
+   "checked against": "PM4Py: rows minus distinct events in the flattening on PatientCondition"
+  },
+  {
+   "id": "RQ3.course_events",
+   "result": "Treatment events in a course",
+   "value": 2042,
+   "checked against": "PM4Py relations with qualifier in_course"
+  },
+  {
+   "id": "RQ3.concurrent_lower_pct",
+   "result": "Treatment events while another course runs, lower bound (%)",
+   "value": 43.6,
+   "checked against": "interval join"
+  },
+  {
+   "id": "RQ3.concurrent_patients_lower",
+   "result": "Patients with a treatment event while another course runs, lower bound",
+   "value": 157,
+   "checked against": "interval join"
+  },
+  {
+   "id": "RQ3.concurrent_upper_pct",
+   "result": "Treatment events while another course runs, upper bound (%)",
+   "value": 66.8,
+   "checked against": "interval join"
+  },
+  {
+   "id": "RQ3.concurrent_patients_upper",
+   "result": "Patients with a treatment event while another course runs, upper bound",
+   "value": 196,
+   "checked against": "interval join"
+  },
+  {
+   "id": "RQ3.patients_with_course_events",
+   "result": "Patients with treatment events in a course",
+   "value": 270,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ3.patients_two_courses",
+   "result": "Patients with events in two or more courses",
+   "value": 200,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ3.patients_interleaved",
+   "result": "Patients whose courses interleave",
+   "value": 146,
+   "checked against": "span test"
+  },
+  {
+   "id": "RQ3.patients_interleaved_pct",
+   "result": "Patients whose courses interleave (% of patients with two or more courses)",
+   "value": 73.0,
+   "checked against": "span test"
+  },
+  {
+   "id": "RQ4.symptom_onset_to_diagnosis_patients",
+   "result": "Patients with both SYMPTOM_ONSET and DIAGNOSIS dated",
+   "value": 251,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.symptom_onset_to_diagnosis_median_months",
+   "result": "SYMPTOM_ONSET to DIAGNOSIS, median (months)",
+   "value": 12.7,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.symptom_onset_to_diagnosis_q1_months",
+   "result": "SYMPTOM_ONSET to DIAGNOSIS, first quartile (months)",
+   "value": 7.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.symptom_onset_to_diagnosis_q3_months",
+   "result": "SYMPTOM_ONSET to DIAGNOSIS, third quartile (months)",
+   "value": 18.3,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.symptom_onset_to_diagnosis_negative_pct",
+   "result": "SYMPTOM_ONSET to DIAGNOSIS, negative gaps (%)",
+   "value": 2.4,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_conventional_therapy_patients",
+   "result": "Patients with both DIAGNOSIS and CONVENTIONAL_THERAPY dated",
+   "value": 259,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_conventional_therapy_median_months",
+   "result": "DIAGNOSIS to CONVENTIONAL_THERAPY, median (months)",
+   "value": 0.2,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_conventional_therapy_q1_months",
+   "result": "DIAGNOSIS to CONVENTIONAL_THERAPY, first quartile (months)",
+   "value": 0.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_conventional_therapy_q3_months",
+   "result": "DIAGNOSIS to CONVENTIONAL_THERAPY, third quartile (months)",
+   "value": 1.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_conventional_therapy_negative_pct",
+   "result": "DIAGNOSIS to CONVENTIONAL_THERAPY, negative gaps (%)",
+   "value": 15.1,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_advanced_therapy_patients",
+   "result": "Patients with both DIAGNOSIS and ADVANCED_THERAPY dated",
+   "value": 31,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_advanced_therapy_median_months",
+   "result": "DIAGNOSIS to ADVANCED_THERAPY, median (months)",
+   "value": 33.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_advanced_therapy_q1_months",
+   "result": "DIAGNOSIS to ADVANCED_THERAPY, first quartile (months)",
+   "value": 22.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_advanced_therapy_q3_months",
+   "result": "DIAGNOSIS to ADVANCED_THERAPY, third quartile (months)",
+   "value": 40.7,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.diagnosis_to_advanced_therapy_negative_pct",
+   "result": "DIAGNOSIS to ADVANCED_THERAPY, negative gaps (%)",
+   "value": 0.0,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.misdiagnosis_yes_patients",
+   "result": "Patients with a dated misdiagnosis: yes",
+   "value": 57,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.misdiagnosis_yes_median_months",
+   "result": "Symptom onset to diagnosis, dated misdiagnosis yes, median (months)",
+   "value": 19.6,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.misdiagnosis_no_patients",
+   "result": "Patients with a dated misdiagnosis: no",
+   "value": 194,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ4.misdiagnosis_no_median_months",
+   "result": "Symptom onset to diagnosis, dated misdiagnosis no, median (months)",
+   "value": 10.6,
+   "checked against": "PM4Py"
+  },
+  {
+   "id": "RQ5.facts_no_journey",
+   "result": "Fact objects scoped to no condition (no in_journey link)",
+   "value": 6120,
+   "checked against": "build report: fact scoped to no condition"
+  },
+  {
+   "id": "RQ5.facts_with_duration",
+   "result": "Fact objects carrying a stated duration (duration_min_days / duration_max_days)",
+   "value": 409,
+   "checked against": "re-read of the JSON file"
+  },
+  {
+   "id": "RQ5.duration_no_end_event",
+   "result": "Occurred facts with a stated duration but no end event",
+   "value": 53,
+   "checked against": "re-read of the JSON file"
+  },
+  {
+   "id": "RQ5.duration_days_attribute",
+   "result": "Fact objects with a `duration_days` attribute (what the mapping reads)",
+   "value": 0,
+   "checked against": "declared `duration_days` attributes in objectTypes"
+  },
+  {
+   "id": "RQ5.milestones_counts_only",
+   "result": "Milestones whose supporting facts are given only as a count",
+   "value": 2267,
+   "checked against": "build report: milestone citations given as counts only"
+  },
+  {
+   "id": "RQ5.periods_end_undated",
+   "result": "Occurred periods that ended or changed at an undated time (start kept, no end event)",
+   "value": 337,
+   "checked against": "cohort-quality.md: Not mapped, Total"
+  },
+  {
+   "id": "RQ5.ends_before_start",
+   "result": "Occurred periods whose end is dated before their start (no end event)",
+   "value": 8,
+   "checked against": "cohort-quality.md: Not mapped, Total"
+  },
+  {
+   "id": "RQ5.contradictory_dates",
+   "result": "Facts with contradictory dates: end before start, or dated after the report",
+   "value": 13,
+   "checked against": "cohort-quality.md: Not mapped, Total"
+  },
+  {
+   "id": "RQ5.duration_no_end_with_start",
+   "result": "Occurred facts with a stated duration and a start event, but no end event",
+   "value": 28,
+   "checked against": "re-read of the JSON file"
+  },
+  {
+   "id": "CC.cases",
+   "result": "Cases in the journey log flattened on Patient (PM4Py)",
+   "value": 280,
+   "checked against": "Patient objects"
+  },
+  {
+   "id": "CC.milestone_variants",
+   "result": "Distinct milestone sequences (variants) in the case-centric log (PM4Py)",
+   "value": 204,
+   "checked against": "JSON file: milestone events per patient, by time then file order"
+  },
+  {
+   "id": "CC.milestone_activities",
+   "result": "Milestone activities in the case-centric log (PM4Py)",
+   "value": 15,
+   "checked against": "milestone types"
+  },
+  {
+   "id": "OC.patients_comorbidity",
+   "result": "Patients with events in a comorbidity journey (PM4Py)",
+   "value": 211,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_journeys",
+   "result": "Comorbidity journeys with events (PM4Py)",
+   "value": 362,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_events",
+   "result": "Events in a comorbidity journey (PM4Py)",
+   "value": 741,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_diagnoses",
+   "result": "Comorbidity diagnoses (ReceiveDiagnosis in a comorbidity journey, PM4Py)",
+   "value": 251,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_diagnoses_mg_dated",
+   "result": "Comorbidity diagnoses of patients with a dated MG diagnosis (PM4Py)",
+   "value": 246,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_diagnoses_before_mg",
+   "result": "Comorbidity diagnoses dated before the MG diagnosis (PM4Py)",
+   "value": 136,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_diagnoses_after_mg",
+   "result": "Comorbidity diagnoses dated after the MG diagnosis (PM4Py)",
+   "value": 97,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.comorbidity_diagnoses_same_time_mg",
+   "result": "Comorbidity diagnoses at the same time as the MG diagnosis (PM4Py)",
+   "value": 13,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.course_end_to_start",
+   "result": "TreatmentCourse: EndTreatment -> StartTreatment pairs (PM4Py OC-DFG)",
+   "value": 0,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.journey_end_to_start",
+   "result": "PatientCondition: EndTreatment -> StartTreatment pairs (PM4Py OC-DFG)",
+   "value": 80,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.journeys_with_switch",
+   "result": "Journeys with an EndTreatment -> StartTreatment pair (PM4Py OC-DFG)",
+   "value": 67,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.switch_to_other_course",
+   "result": "Journey EndTreatment -> StartTreatment pairs whose start is in another course (PM4Py)",
+   "value": 80,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "OC.journeys_start_with_diagnosis",
+   "result": "Journeys whose first event of the three is ReceiveDiagnosis (PM4Py OC-DFG)",
+   "value": 477,
+   "checked against": "JSON file"
+  },
+  {
+   "id": "CC.patient_end_to_start",
+   "result": "Patient as case: EndTreatment -> StartTreatment pairs (PM4Py DFG)",
+   "value": 114,
+   "checked against": "JSON file"
+  }
+ ]
+}

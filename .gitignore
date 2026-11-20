@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+# Local inputs and run output are not part of the release.
+exports/
+out/
+# LaTeX the notebook writes for the paper; not part of the package.
+*.tex

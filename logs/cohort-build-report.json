@@ -1,0 +1,5217 @@
+{
+ "mapping": "mapping.yaml",
+ "params": {
+  "perspectives": [
+   "Patient",
+   "PatientCondition",
+   "TreatmentCourse"
+  ],
+  "min_lifecycle": 2,
+  "event_statuses": [
+   "occurred"
+  ],
+  "time_anchor": "lower",
+  "initial_time": "first_event",
+  "relations": "o2o",
+  "evidence": "attribute",
+  "evidence_text": false,
+  "change_types": "events_on_target",
+  "fact_object_types": "per_type",
+  "normalize_verbatim": true,
+  "provenance_log": true
+ },
+ "quality": {
+  "attribute changes outside the object's event span": 0,
+  "event references before the object's first attribute": 0,
+  "epoch timestamps (initial values)": 75505,
+  "objects never referenced by an event": 6771,
+  "objects never referenced by an event, by type": {
+   "Treatment": 3248,
+   "Symptom": 2172,
+   "HcpVisit": 320,
+   "Diagnosis": 289,
+   "Milestone": 267,
+   "PatientCondition": 158,
+   "InformationSearch": 82,
+   "DiagnosticProcedure": 67,
+   "Hospitalization": 63,
+   "TreatmentCourse": 42,
+   "DiseaseStatus": 34,
+   "AdverseEvent": 29
+  },
+  "object types with exactly one event per object": [],
+  "singleton object types": [],
+  "type names unsafe as identifiers": [],
+  "placeholder values": {},
+  "attributes with case/whitespace variants": [
+   "AdverseEvent.experience_standard_name",
+   "DiagnosticProcedure.body_site",
+   "DiagnosticProcedure.result_summary",
+   "DiagnosticProcedure.result_unit",
+   "DiagnosticProcedure.test_standard_name",
+   "HcpVisit.outcome_detail",
+   "HcpVisit.reason",
+   "Hospitalization.reason",
+   "InformationSearch.information_source",
+   "Symptom.pattern",
+   "Treatment.end_reason",
+   "Treatment.frequency",
+   "Treatment.not_started_reason",
+   "Treatment.perception_detail"
+  ],
+  "timestamps shared by 6+ events": {
+   "2010-03-01": 9,
+   "2010-09-01": 6,
+   "2010-10-01": 8,
+   "2011-05-01": 8,
+   "2011-06-01": 6,
+   "2011-07-01": 12,
+   "2011-09-01": 10,
+   "2011-10-01": 21,
+   "2011-11-01": 11,
+   "2011-12-01": 11,
+   "2012-01-01": 15,
+   "2012-03-01": 6,
+   "2012-05-01": 6,
+   "2012-06-01": 13,
+   "2012-08-01": 20,
+   "2012-09-01": 6,
+   "2013-01-01": 16,
+   "2013-02-01": 9,
+   "2013-03-01": 13,
+   "2013-05-01": 16,
+   "2013-06-01": 8,
+   "2013-07-01": 9,
+   "2013-09-01": 9,
+   "2013-10-01": 7,
+   "2013-11-01": 8,
+   "2013-12-01": 7,
+   "2014-01-01": 6,
+   "2014-02-01": 9,
+   "2014-03-01": 22,
+   "2014-05-01": 6,
+   "2014-06-01": 17,
+   "2014-07-01": 7,
+   "2014-08-01": 8,
+   "2014-09-01": 25,
+   "2014-10-01": 13,
+   "2014-12-01": 14,
+   "2015-01-01": 14,
+   "2015-03-01": 18,
+   "2015-04-01": 15,
+   "2015-05-01": 11,
+   "2015-06-01": 22,
+   "2015-07-01": 24,
+   "2015-08-01": 20,
+   "2015-09-01": 36,
+   "2015-10-01": 21,
+   "2015-11-01": 18,
+   "2015-12-01": 15,
+   "2016-01-01": 41,
+   "2016-02-01": 31,
+   "2016-03-01": 41,
+   "2016-04-01": 25,
+   "2016-05-01": 27,
+   "2016-06-01": 52,
+   "2016-07-01": 10,
+   "2016-08-01": 32,
+   "2016-09-01": 45,
+   "2016-10-01": 13,
+   "2016-11-01": 28,
+   "2016-11-21": 8,
+   "2016-12-01": 21,
+   "2017-01-01": 32,
+   "2017-02-01": 45,
+   "2017-02-15": 7,
+   "2017-03-01": 44,
+   "2017-04-01": 28,
+   "2017-04-30": 7,
+   "2017-05-01": 44,
+   "2017-06-01": 48,
+   "2017-07-01": 35,
+   "2017-07-23": 6,
+   "2017-08-01": 27,
+   "2017-09-01": 39,
+   "2017-10-01": 39,
+   "2017-11-01": 27,
+   "2017-11-16": 6,
+   "2017-12-01": 44,
+   "2018-01-01": 44,
+   "2018-01-04": 7,
+   "2018-02-01": 25,
+   "2018-03-01": 42,
+   "2018-04-01": 43,
+   "2018-05-01": 24,
+   "2018-05-05": 6,
+   "2018-06-01": 31,
+   "2018-07-01": 11,
+   "2018-08-01": 30,
+   "2018-09-01": 32,
+   "2018-10-01": 20,
+   "2018-11-01": 21,
+   "2018-11-15": 7,
+   "2018-12-01": 21,
+   "2019-01-01": 23,
+   "2019-02-01": 32,
+   "2019-03-01": 63,
+   "2019-04-01": 25,
+   "2019-05-01": 36,
+   "2019-06-01": 57,
+   "2019-07-01": 13,
+   "2019-08-01": 35,
+   "2019-08-15": 6,
+   "2019-08-24": 6,
+   "2019-09-01": 27,
+   "2019-10-01": 18,
+   "2019-11-01": 14,
+   "2019-12-01": 46,
+   "2020-01-01": 44,
+   "2020-02-01": 20,
+   "2020-03-01": 43,
+   "2020-04-01": 31,
+   "2020-05-01": 35,
+   "2020-06-01": 56,
+   "2020-07-01": 41,
+   "2020-07-18": 6,
+   "2020-07-24": 6,
+   "2020-08-01": 21,
+   "2020-09-01": 65,
+   "2020-10-01": 26,
+   "2020-11-01": 27,
+   "2020-12-01": 41,
+   "2021-01-01": 30,
+   "2021-01-10": 6,
+   "2021-02-01": 24,
+   "2021-02-14": 6,
+   "2021-03-01": 66,
+   "2021-04-01": 27,
+   "2021-04-21": 6,
+   "2021-05-01": 53,
+   "2021-05-15": 6,
+   "2021-05-28": 8,
+   "2021-06-01": 53,
+   "2021-07-01": 29,
+   "2021-08-01": 22,
+   "2021-09-01": 62,
+   "2021-10-01": 33,
+   "2021-10-11": 9,
+   "2021-10-31": 6,
+   "2021-11-01": 41,
+   "2021-12-01": 34,
+   "2021-12-20": 6,
+   "2022-01-01": 61,
+   "2022-01-15": 6,
+   "2022-02-01": 21,
+   "2022-03-01": 53,
+   "2022-04-01": 54,
+   "2022-04-16": 6,
+   "2022-05-01": 35,
+   "2022-05-29": 8,
+   "2022-06-01": 80,
+   "2022-07-01": 58,
+   "2022-07-04": 7,
+   "2022-08-01": 39,
+   "2022-09-01": 65,
+   "2022-10-01": 50,
+   "2022-10-14": 7,
+   "2022-11-01": 40,
+   "2022-12-01": 51,
+   "2022-12-28": 8,
+   "2023-01-01": 49,
+   "2023-01-10": 6,
+   "2023-01-15": 8,
+   "2023-01-18": 7,
+   "2023-02-01": 65,
+   "2023-03-01": 63,
+   "2023-03-05": 6,
+   "2023-03-18": 7,
+   "2023-04-01": 26,
+   "2023-05-01": 58,
+   "2023-06-01": 81,
+   "2023-06-24": 8,
+   "2023-07-01": 48,
+   "2023-07-18": 6,
+   "2023-08-01": 44,
+   "2023-08-17": 7,
+   "2023-08-19": 6,
+   "2023-09-01": 74,
+   "2023-09-25": 7,
+   "2023-10-01": 64,
+   "2023-11-01": 38,
+   "2023-12-01": 56,
+   "2024-01-01": 73,
+   "2024-01-31": 10,
+   "2024-02-01": 65,
+   "2024-03-01": 77,
+   "2024-04-01": 39,
+   "2024-05-01": 33,
+   "2024-06-01": 101,
+   "2024-07-01": 53,
+   "2024-07-22": 6,
+   "2024-08-01": 59,
+   "2024-09-01": 80,
+   "2024-10-01": 90,
+   "2024-10-08": 6,
+   "2024-10-26": 7,
+   "2024-11-01": 117,
+   "2024-12-01": 97,
+   "2025-01-01": 89,
+   "2025-01-02": 7,
+   "2025-01-10": 7,
+   "2025-01-16": 11,
+   "2025-01-22": 7,
+   "2025-01-28": 7,
+   "2025-01-31": 11,
+   "2025-02-01": 99,
+   "2025-03-01": 157,
+   "2025-03-31": 7,
+   "2025-04-01": 75,
+   "2025-05-01": 84,
+   "2025-05-25": 8,
+   "2025-06-01": 98,
+   "2025-06-04": 8,
+   "2025-06-12": 7,
+   "2025-07-01": 80,
+   "2025-07-07": 9,
+   "2025-07-21": 6,
+   "2025-08-01": 79,
+   "2025-08-21": 6,
+   "2025-09-01": 100,
+   "2025-09-11": 6,
+   "2025-10-01": 58,
+   "2025-10-13": 6,
+   "2025-10-19": 6,
+   "2025-10-23": 6,
+   "2025-10-26": 7,
+   "2025-10-31": 6,
+   "2025-11-01": 63,
+   "2025-12-01": 56,
+   "2026-01-01": 72,
+   "2026-01-06": 9,
+   "2026-01-15": 13,
+   "2026-01-20": 11,
+   "2026-02-01": 42,
+   "2026-03-01": 45,
+   "2026-04-01": 25,
+   "2026-04-19": 6,
+   "2026-05-01": 28,
+   "2026-06-01": 34,
+   "2026-07-01": 14
+  },
+  "attributes with more than one value": {
+   "TreatmentCourse": 45,
+   "PatientCondition": 15
+  },
+  "size": {
+   "objects": 17706,
+   "object types": 13,
+   "events": 10364,
+   "event types": 30,
+   "E2O": 30028,
+   "O2O": 21686
+  }
+ },
+ "quality_previous": null,
+ "cohort": {
+  "patients": 280,
+  "events per patient": {
+   "S261": 71,
+   "S153": 69,
+   "S100": 67,
+   "S157": 66,
+   "S143": 66,
+   "S222": 66,
+   "S248": 65,
+   "S240": 65,
+   "S232": 64,
+   "S102": 62,
+   "S186": 60,
+   "S137": 60,
+   "S156": 60,
+   "S323": 59,
+   "S214": 58,
+   "S168": 58,
+   "S341": 57,
+   "S139": 57,
+   "S146": 56,
+   "S376": 56,
+   "S216": 56,
+   "S293": 56,
+   "S331": 56,
+   "S147": 56,
+   "S181": 56,
+   "S271": 55,
+   "S173": 55,
+   "S371": 54,
+   "S367": 53,
+   "S379": 53,
+   "S329": 53,
+   "S308": 53,
+   "S374": 52,
+   "S127": 52,
+   "S262": 51,
+   "S370": 51,
+   "S260": 51,
+   "S199": 51,
+   "S201": 50,
+   "S272": 50,
+   "S119": 50,
+   "S207": 50,
+   "S259": 49,
+   "S135": 49,
+   "S274": 48,
+   "S257": 48,
+   "S284": 48,
+   "S352": 48,
+   "S265": 48,
+   "S128": 48,
+   "S377": 48,
+   "S375": 48,
+   "S111": 48,
+   "S267": 48,
+   "S292": 47,
+   "S282": 47,
+   "S366": 47,
+   "S218": 46,
+   "S104": 46,
+   "S250": 46,
+   "S174": 46,
+   "S221": 46,
+   "S154": 46,
+   "S249": 46,
+   "S281": 45,
+   "S290": 45,
+   "S384": 45,
+   "S255": 45,
+   "S115": 45,
+   "S215": 45,
+   "S170": 45,
+   "S264": 44,
+   "S144": 44,
+   "S268": 44,
+   "S130": 44,
+   "S298": 44,
+   "S278": 44,
+   "S198": 44,
+   "S188": 44,
+   "S189": 43,
+   "S245": 43,
+   "S300": 43,
+   "S382": 43,
+   "S368": 43,
+   "S204": 43,
+   "S224": 43,
+   "S312": 43,
+   "S194": 42,
+   "S310": 42,
+   "S306": 42,
+   "S243": 42,
+   "S318": 42,
+   "S342": 41,
+   "S237": 41,
+   "S124": 41,
+   "S228": 41,
+   "S112": 41,
+   "S202": 41,
+   "S197": 41,
+   "S322": 41,
+   "S165": 41,
+   "S279": 41,
+   "S263": 40,
+   "S302": 40,
+   "S332": 40,
+   "S251": 40,
+   "S179": 40,
+   "S219": 40,
+   "S345": 40,
+   "S354": 40,
+   "S355": 39,
+   "S158": 39,
+   "S373": 39,
+   "S286": 39,
+   "S155": 39,
+   "S217": 39,
+   "S359": 39,
+   "S247": 39,
+   "S150": 39,
+   "S252": 38,
+   "S336": 38,
+   "S152": 38,
+   "S241": 38,
+   "S176": 38,
+   "S289": 38,
+   "S122": 37,
+   "S145": 37,
+   "S311": 37,
+   "S325": 36,
+   "S151": 36,
+   "S106": 36,
+   "S120": 36,
+   "S328": 36,
+   "S133": 36,
+   "S233": 36,
+   "S171": 36,
+   "S381": 36,
+   "S304": 36,
+   "S209": 35,
+   "S343": 35,
+   "S313": 35,
+   "S253": 35,
+   "S372": 35,
+   "S227": 35,
+   "S256": 35,
+   "S117": 35,
+   "S161": 35,
+   "S315": 35,
+   "S160": 34,
+   "S364": 34,
+   "S317": 34,
+   "S283": 34,
+   "S190": 34,
+   "S348": 34,
+   "S320": 34,
+   "S131": 34,
+   "S206": 34,
+   "S210": 34,
+   "S164": 34,
+   "S347": 33,
+   "S148": 33,
+   "S361": 33,
+   "S149": 33,
+   "S140": 33,
+   "S335": 33,
+   "S225": 33,
+   "S195": 33,
+   "S129": 33,
+   "S301": 33,
+   "S269": 33,
+   "S180": 32,
+   "S307": 32,
+   "S220": 32,
+   "S121": 32,
+   "S107": 32,
+   "S192": 32,
+   "S118": 32,
+   "S305": 32,
+   "S330": 32,
+   "S159": 32,
+   "S169": 32,
+   "S275": 32,
+   "S134": 32,
+   "S339": 32,
+   "S344": 32,
+   "S231": 32,
+   "S280": 31,
+   "S309": 31,
+   "S167": 31,
+   "S340": 31,
+   "S324": 31,
+   "S321": 31,
+   "S105": 31,
+   "S183": 31,
+   "S172": 30,
+   "S246": 30,
+   "S365": 30,
+   "S346": 30,
+   "S205": 30,
+   "S295": 30,
+   "S378": 30,
+   "S316": 30,
+   "S356": 30,
+   "S380": 30,
+   "S357": 30,
+   "S291": 29,
+   "S108": 29,
+   "S296": 29,
+   "S353": 29,
+   "S236": 29,
+   "S226": 29,
+   "S239": 29,
+   "S360": 28,
+   "S162": 28,
+   "S166": 28,
+   "S223": 28,
+   "S244": 28,
+   "S230": 28,
+   "S288": 28,
+   "S110": 27,
+   "S136": 27,
+   "S362": 27,
+   "S123": 27,
+   "S132": 27,
+   "S103": 27,
+   "S276": 26,
+   "S187": 26,
+   "S334": 26,
+   "S238": 26,
+   "S363": 26,
+   "S327": 25,
+   "S254": 25,
+   "S351": 25,
+   "S285": 25,
+   "S314": 25,
+   "S213": 25,
+   "S273": 25,
+   "S299": 24,
+   "S125": 24,
+   "S191": 24,
+   "S185": 24,
+   "S337": 24,
+   "S126": 24,
+   "S142": 24,
+   "S266": 23,
+   "S349": 23,
+   "S229": 23,
+   "S212": 23,
+   "S208": 23,
+   "S101": 23,
+   "S303": 23,
+   "S287": 22,
+   "S109": 22,
+   "S277": 22,
+   "S294": 22,
+   "S203": 22,
+   "S184": 21,
+   "S163": 21,
+   "S270": 21,
+   "S141": 21,
+   "S116": 20,
+   "S383": 20,
+   "S200": 20,
+   "S369": 20,
+   "S297": 20,
+   "S196": 20,
+   "S258": 20,
+   "S182": 19,
+   "S114": 19,
+   "S175": 19,
+   "S211": 19,
+   "S242": 18,
+   "S177": 16,
+   "S333": 16,
+   "S326": 16,
+   "S358": 15,
+   "S319": 15,
+   "S235": 13,
+   "S350": 13,
+   "S234": 12
+  },
+  "shared objects used by 2+ patients": {},
+  "objects referenced by more than half of all events": [],
+  "facts or events in 2+ journeys": 56,
+  "connected pieces without Patient objects": 3624
+ },
+ "lifecycle": {
+  "Patient": {
+   "objects": 280,
+   "patients": 280,
+   "median_events": 35,
+   "perspective": true,
+   "meets_min_lifecycle": true
+  },
+  "TreatmentCourse": {
+   "objects": 747,
+   "patients": 273,
+   "median_events": 2,
+   "perspective": true,
+   "meets_min_lifecycle": true
+  },
+  "PatientCondition": {
+   "objects": 800,
+   "patients": 280,
+   "median_events": 2,
+   "perspective": true,
+   "meets_min_lifecycle": true
+  },
+  "Diagnosis": {
+   "objects": 933,
+   "patients": 280,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "Treatment": {
+   "objects": 4886,
+   "patients": 279,
+   "median_events": 0,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "HcpVisit": {
+   "objects": 2696,
+   "patients": 280,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "Symptom": {
+   "objects": 3259,
+   "patients": 280,
+   "median_events": 0,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "DiagnosticProcedure": {
+   "objects": 1035,
+   "patients": 276,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "Hospitalization": {
+   "objects": 178,
+   "patients": 142,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "AdverseEvent": {
+   "objects": 397,
+   "patients": 167,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "DiseaseStatus": {
+   "objects": 118,
+   "patients": 105,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "Milestone": {
+   "objects": 2267,
+   "patients": 280,
+   "median_events": 1,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  },
+  "InformationSearch": {
+   "objects": 110,
+   "patients": 96,
+   "median_events": 0,
+   "perspective": false,
+   "meets_min_lifecycle": false
+  }
+ },
+ "patients": {
+  "S100": {
+   "unmapped": {
+    "fact scoped to no condition": 13,
+    "no event: status negated": 13,
+    "no event: status intended": 2,
+    "no end event: period stopped, end undated": 4,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 67,
+    "objects (own)": 86
+   }
+  },
+  "S101": {
+   "unmapped": {
+    "fact scoped to no condition": 12,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 55
+   }
+  },
+  "S102": {
+   "unmapped": {
+    "fact scoped to no condition": 36,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 62,
+    "objects (own)": 85
+   }
+  },
+  "S103": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 18,
+    "no event: status intended": 2,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 50
+   }
+  },
+  "S104": {
+   "unmapped": {
+    "fact scoped to no condition": 48,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 12,
+    "no end event: period stopped, end undated": 6,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 90
+   }
+  },
+  "S105": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 58
+   }
+  },
+  "S106": {
+   "unmapped": {
+    "fact scoped to no condition": 18,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 64
+   }
+  },
+  "S107": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 55
+   }
+  },
+  "S108": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status intended": 1,
+    "no event: status negated": 8,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 43
+   }
+  },
+  "S109": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 22,
+    "objects (own)": 49
+   }
+  },
+  "S110": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status negated": 11,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 42
+   }
+  },
+  "S111": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 18,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 8,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 81
+   }
+  },
+  "S112": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 24,
+    "no event: temporally unresolved": 8,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 77
+   }
+  },
+  "S114": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 5
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 19,
+    "objects (own)": 48
+   }
+  },
+  "S115": {
+   "unmapped": {
+    "fact scoped to no condition": 8,
+    "no event: status intended": 2,
+    "no event: status negated": 10,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 55
+   }
+  },
+  "S116": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status negated": 13,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 41
+   }
+  },
+  "S117": {
+   "unmapped": {
+    "fact scoped to no condition": 44,
+    "no event: status negated": 23,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 66
+   }
+  },
+  "S118": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 61
+   }
+  },
+  "S119": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status intended": 3,
+    "no event: status negated": 11,
+    "no event: temporally unresolved": 6,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 50,
+    "objects (own)": 74
+   }
+  },
+  "S120": {
+   "unmapped": {
+    "fact scoped to no condition": 23,
+    "no event: status negated": 17,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 14,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 76
+   }
+  },
+  "S121": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 3,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 41
+   }
+  },
+  "S122": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 23,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 37,
+    "objects (own)": 69
+   }
+  },
+  "S123": {
+   "unmapped": {
+    "fact scoped to no condition": 20,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 58
+   }
+  },
+  "S124": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 72
+   }
+  },
+  "S125": {
+   "unmapped": {
+    "fact scoped to no condition": 22,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 55
+   }
+  },
+  "S126": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 53
+   }
+  },
+  "S127": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status intended": 2,
+    "no event: status negated": 13,
+    "no event: temporally unresolved": 8,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 52,
+    "objects (own)": 74
+   }
+  },
+  "S128": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 70
+   }
+  },
+  "S129": {
+   "unmapped": {
+    "fact scoped to no condition": 22,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 65
+   }
+  },
+  "S130": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status intended": 2,
+    "no event: status negated": 11,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 70
+   }
+  },
+  "S131": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 64
+   }
+  },
+  "S132": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 54
+   }
+  },
+  "S133": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 7,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 68
+   }
+  },
+  "S134": {
+   "unmapped": {
+    "fact scoped to no condition": 38,
+    "no event: status negated": 19,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 8,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 64
+   }
+  },
+  "S135": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status negated": 20,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 7,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 11
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 49,
+    "objects (own)": 82
+   }
+  },
+  "S136": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status negated": 14,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 53
+   }
+  },
+  "S137": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 4,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 60,
+    "objects (own)": 85
+   }
+  },
+  "S138": {
+   "unmapped": {
+    "patient left out: no gold_anchors": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 0,
+    "objects (own)": 0
+   }
+  },
+  "S139": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status negated": 23,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 9,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 57,
+    "objects (own)": 92
+   }
+  },
+  "S140": {
+   "unmapped": {
+    "fact scoped to no condition": 38,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 58
+   }
+  },
+  "S141": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status intended": 1,
+    "no event: status negated": 23,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 21,
+    "objects (own)": 50
+   }
+  },
+  "S142": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 50
+   }
+  },
+  "S143": {
+   "unmapped": {
+    "fact scoped to no condition": 37,
+    "no event: status negated": 19,
+    "no event: status intended": 2,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 66,
+    "objects (own)": 86
+   }
+  },
+  "S144": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status intended": 1,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 13,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 86
+   }
+  },
+  "S145": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status intended": 3,
+    "no event: status negated": 15,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 37,
+    "objects (own)": 67
+   }
+  },
+  "S146": {
+   "unmapped": {
+    "fact scoped to no condition": 3,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 11,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 75
+   }
+  },
+  "S147": {
+   "unmapped": {
+    "fact scoped to no condition": 40,
+    "no event: status negated": 17,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 81
+   }
+  },
+  "S148": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status negated": 13,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 54
+   }
+  },
+  "S149": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 23,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 64
+   }
+  },
+  "S150": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 64
+   }
+  },
+  "S151": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 64
+   }
+  },
+  "S152": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status intended": 3,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 6,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 2,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 74
+   }
+  },
+  "S153": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status intended": 3,
+    "no event: status negated": 16,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 69,
+    "objects (own)": 92
+   }
+  },
+  "S154": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 18,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 72
+   }
+  },
+  "S155": {
+   "unmapped": {
+    "fact scoped to no condition": 22,
+    "no event: status negated": 21,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 5,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 71
+   }
+  },
+  "S156": {
+   "unmapped": {
+    "fact scoped to no condition": 40,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 11,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 12,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 60,
+    "objects (own)": 93
+   }
+  },
+  "S157": {
+   "unmapped": {
+    "fact scoped to no condition": 35,
+    "no event: status negated": 6,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 8,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 66,
+    "objects (own)": 77
+   }
+  },
+  "S158": {
+   "unmapped": {
+    "fact scoped to no condition": 40,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 6,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 67
+   }
+  },
+  "S159": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 60
+   }
+  },
+  "S160": {
+   "unmapped": {
+    "fact scoped to no condition": 24,
+    "no event: status negated": 11,
+    "no event: status intended": 2,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 55
+   }
+  },
+  "S161": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 62
+   }
+  },
+  "S162": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status intended": 1,
+    "no event: status negated": 19,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 2,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 52
+   }
+  },
+  "S163": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status negated": 2,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 21,
+    "objects (own)": 33
+   }
+  },
+  "S164": {
+   "unmapped": {
+    "fact scoped to no condition": 40,
+    "no event: status negated": 23,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 61
+   }
+  },
+  "S165": {
+   "unmapped": {
+    "fact scoped to no condition": 39,
+    "no event: status negated": 22,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 69
+   }
+  },
+  "S166": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 9,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 48
+   }
+  },
+  "S167": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status intended": 1,
+    "no event: status negated": 11,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 6,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 53
+   }
+  },
+  "S168": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status intended": 1,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 58,
+    "objects (own)": 86
+   }
+  },
+  "S169": {
+   "unmapped": {
+    "fact scoped to no condition": 36,
+    "no event: status intended": 1,
+    "no event: status negated": 23,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 61
+   }
+  },
+  "S170": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 7,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 74
+   }
+  },
+  "S171": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 10,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 55
+   }
+  },
+  "S172": {
+   "unmapped": {
+    "fact scoped to no condition": 9,
+    "no event: status negated": 19,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 60
+   }
+  },
+  "S173": {
+   "unmapped": {
+    "fact scoped to no condition": 49,
+    "no event: status intended": 1,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 12,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 55,
+    "objects (own)": 79
+   }
+  },
+  "S174": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 70
+   }
+  },
+  "S175": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 19,
+    "objects (own)": 47
+   }
+  },
+  "S176": {
+   "unmapped": {
+    "fact scoped to no condition": 26,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 66
+   }
+  },
+  "S177": {
+   "unmapped": {
+    "fact scoped to no condition": 13,
+    "no event: status negated": 13,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 11,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 16,
+    "objects (own)": 50
+   }
+  },
+  "S178": {
+   "unmapped": {
+    "patient left out: no gold_anchors": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 0,
+    "objects (own)": 0
+   }
+  },
+  "S179": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 62
+   }
+  },
+  "S180": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status negated": 17,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 60
+   }
+  },
+  "S181": {
+   "unmapped": {
+    "fact scoped to no condition": 44,
+    "no event: status intended": 4,
+    "no event: status negated": 17,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 74
+   }
+  },
+  "S182": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 19,
+    "objects (own)": 50
+   }
+  },
+  "S183": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 58
+   }
+  },
+  "S184": {
+   "unmapped": {
+    "fact scoped to no condition": 26,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 2,
+    "provenance: first assertion of a revised fact has no time": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 21,
+    "objects (own)": 49
+   }
+  },
+  "S185": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status negated": 4,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 35
+   }
+  },
+  "S186": {
+   "unmapped": {
+    "fact scoped to no condition": 18,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 60,
+    "objects (own)": 85
+   }
+  },
+  "S187": {
+   "unmapped": {
+    "fact scoped to no condition": 13,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 7,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 26,
+    "objects (own)": 61
+   }
+  },
+  "S188": {
+   "unmapped": {
+    "fact scoped to no condition": 42,
+    "no event: status negated": 21,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 63
+   }
+  },
+  "S189": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 75
+   }
+  },
+  "S190": {
+   "unmapped": {
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 4,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 63
+   }
+  },
+  "S191": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status intended": 3,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 55
+   }
+  },
+  "S192": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 9,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 65
+   }
+  },
+  "S193": {
+   "unmapped": {
+    "patient left out: no gold_anchors": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 0,
+    "objects (own)": 0
+   }
+  },
+  "S194": {
+   "unmapped": {
+    "fact scoped to no condition": 43,
+    "no event: status negated": 20,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 42,
+    "objects (own)": 74
+   }
+  },
+  "S195": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 23,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 62
+   }
+  },
+  "S196": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 46
+   }
+  },
+  "S197": {
+   "unmapped": {
+    "fact scoped to no condition": 35,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 67
+   }
+  },
+  "S198": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 74
+   }
+  },
+  "S199": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status intended": 1,
+    "no event: status negated": 23,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 51,
+    "objects (own)": 78
+   }
+  },
+  "S200": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status intended": 3,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 52
+   }
+  },
+  "S201": {
+   "unmapped": {
+    "fact scoped to no condition": 45,
+    "no event: status negated": 15,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 50,
+    "objects (own)": 75
+   }
+  },
+  "S202": {
+   "unmapped": {
+    "fact scoped to no condition": 38,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 5,
+    "no event: dated after it was reported": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 68
+   }
+  },
+  "S203": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status negated": 9,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 22,
+    "objects (own)": 41
+   }
+  },
+  "S204": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 7,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 73
+   }
+  },
+  "S205": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 8,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 5
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 42
+   }
+  },
+  "S206": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 62
+   }
+  },
+  "S207": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 6,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 50,
+    "objects (own)": 76
+   }
+  },
+  "S208": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 49
+   }
+  },
+  "S209": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status intended": 2,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 67
+   }
+  },
+  "S210": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 15,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 3,
+    "no event: dated after it was reported": 1,
+    "milestone citations given as counts only": 11,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 58
+   }
+  },
+  "S211": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 19,
+    "objects (own)": 46
+   }
+  },
+  "S212": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 7,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 36
+   }
+  },
+  "S213": {
+   "unmapped": {
+    "fact scoped to no condition": 26,
+    "no event: status negated": 13,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 43
+   }
+  },
+  "S214": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 16,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 58,
+    "objects (own)": 73
+   }
+  },
+  "S215": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 20,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 63
+   }
+  },
+  "S216": {
+   "unmapped": {
+    "fact scoped to no condition": 38,
+    "no event: status intended": 2,
+    "no event: status negated": 13,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 77
+   }
+  },
+  "S217": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 18,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 60
+   }
+  },
+  "S218": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 69
+   }
+  },
+  "S219": {
+   "unmapped": {
+    "fact scoped to no condition": 24,
+    "no event: status intended": 1,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 8,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 73
+   }
+  },
+  "S220": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status intended": 2,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 58
+   }
+  },
+  "S221": {
+   "unmapped": {
+    "fact scoped to no condition": 37,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 68
+   }
+  },
+  "S222": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status intended": 3,
+    "no event: status negated": 13,
+    "no event: temporally unresolved": 6,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 66,
+    "objects (own)": 84
+   }
+  },
+  "S223": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 57
+   }
+  },
+  "S224": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 70
+   }
+  },
+  "S225": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status negated": 23,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 60
+   }
+  },
+  "S226": {
+   "unmapped": {
+    "fact scoped to no condition": 39,
+    "no event: status negated": 23,
+    "no event: status intended": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 62
+   }
+  },
+  "S227": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status negated": 14,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 53
+   }
+  },
+  "S228": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 68
+   }
+  },
+  "S229": {
+   "unmapped": {
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 46
+   }
+  },
+  "S230": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 56
+   }
+  },
+  "S231": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 2,
+    "no event: dated after it was reported": 1,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 63
+   }
+  },
+  "S232": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 7,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 12,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 64,
+    "objects (own)": 78
+   }
+  },
+  "S233": {
+   "unmapped": {
+    "fact scoped to no condition": 22,
+    "no event: status negated": 22,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 59
+   }
+  },
+  "S234": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status negated": 2,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 12,
+    "objects (own)": 22
+   }
+  },
+  "S235": {
+   "unmapped": {
+    "fact scoped to no condition": 9,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 13,
+    "objects (own)": 44
+   }
+  },
+  "S236": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 57
+   }
+  },
+  "S237": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 66
+   }
+  },
+  "S238": {
+   "unmapped": {
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 26,
+    "objects (own)": 53
+   }
+  },
+  "S239": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 56
+   }
+  },
+  "S240": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 19,
+    "no event: status intended": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 65,
+    "objects (own)": 84
+   }
+  },
+  "S241": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status negated": 9,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 56
+   }
+  },
+  "S242": {
+   "unmapped": {
+    "no event: status intended": 4,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 18,
+    "objects (own)": 52
+   }
+  },
+  "S243": {
+   "unmapped": {
+    "fact scoped to no condition": 26,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 8,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 42,
+    "objects (own)": 71
+   }
+  },
+  "S244": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status negated": 21,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 56
+   }
+  },
+  "S245": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 23,
+    "no event: status intended": 1,
+    "no end event: period stopped, end undated": 3,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 67
+   }
+  },
+  "S246": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 17,
+    "no event: status intended": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 52
+   }
+  },
+  "S247": {
+   "unmapped": {
+    "fact scoped to no condition": 20,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 63
+   }
+  },
+  "S248": {
+   "unmapped": {
+    "fact scoped to no condition": 35,
+    "no event: status negated": 13,
+    "no event: status intended": 2,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 11
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 65,
+    "objects (own)": 78
+   }
+  },
+  "S249": {
+   "unmapped": {
+    "fact scoped to no condition": 20,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 4,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 74
+   }
+  },
+  "S250": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 12,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 46,
+    "objects (own)": 72
+   }
+  },
+  "S251": {
+   "unmapped": {
+    "fact scoped to no condition": 37,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 8,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 72
+   }
+  },
+  "S252": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 20,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 63
+   }
+  },
+  "S253": {
+   "unmapped": {
+    "fact scoped to no condition": 4,
+    "no event: status negated": 20,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 8,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 72
+   }
+  },
+  "S254": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 3,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 7,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 46
+   }
+  },
+  "S255": {
+   "unmapped": {
+    "fact scoped to no condition": 37,
+    "no event: status intended": 1,
+    "no event: status negated": 13,
+    "no event: temporally unresolved": 8,
+    "no end event: period changed, end undated": 4,
+    "no end event: period stopped, end undated": 5,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 72
+   }
+  },
+  "S256": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 8,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 68
+   }
+  },
+  "S257": {
+   "unmapped": {
+    "fact scoped to no condition": 23,
+    "no event: status negated": 14,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 4,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 71
+   }
+  },
+  "S258": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 7,
+    "no event: dated after it was reported": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 52
+   }
+  },
+  "S259": {
+   "unmapped": {
+    "fact scoped to no condition": 18,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 49,
+    "objects (own)": 71
+   }
+  },
+  "S260": {
+   "unmapped": {
+    "fact scoped to no condition": 45,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 51,
+    "objects (own)": 79
+   }
+  },
+  "S261": {
+   "unmapped": {
+    "fact scoped to no condition": 23,
+    "no event: status negated": 8,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 71,
+    "objects (own)": 80
+   }
+  },
+  "S262": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 51,
+    "objects (own)": 79
+   }
+  },
+  "S263": {
+   "unmapped": {
+    "fact scoped to no condition": 40,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 70
+   }
+  },
+  "S264": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 71
+   }
+  },
+  "S265": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 69
+   }
+  },
+  "S266": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 54
+   }
+  },
+  "S267": {
+   "unmapped": {
+    "fact scoped to no condition": 36,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 80
+   }
+  },
+  "S268": {
+   "unmapped": {
+    "fact scoped to no condition": 20,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 72
+   }
+  },
+  "S269": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 55
+   }
+  },
+  "S270": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 21,
+    "objects (own)": 54
+   }
+  },
+  "S271": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status negated": 12,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 55,
+    "objects (own)": 73
+   }
+  },
+  "S272": {
+   "unmapped": {
+    "fact scoped to no condition": 39,
+    "no event: status negated": 16,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 50,
+    "objects (own)": 71
+   }
+  },
+  "S273": {
+   "unmapped": {
+    "fact scoped to no condition": 12,
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 51
+   }
+  },
+  "S274": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 10,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 1,
+    "no event: dated after it was reported": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 61
+   }
+  },
+  "S275": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 61
+   }
+  },
+  "S276": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status intended": 2,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 26,
+    "objects (own)": 58
+   }
+  },
+  "S277": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status negated": 19,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 22,
+    "objects (own)": 48
+   }
+  },
+  "S278": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status negated": 19,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 67
+   }
+  },
+  "S279": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 6,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 70
+   }
+  },
+  "S280": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status intended": 1,
+    "no event: status negated": 14,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 56
+   }
+  },
+  "S281": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 10,
+    "no event: temporally unresolved": 4,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 61
+   }
+  },
+  "S282": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status negated": 23,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 47,
+    "objects (own)": 83
+   }
+  },
+  "S283": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 61
+   }
+  },
+  "S284": {
+   "unmapped": {
+    "fact scoped to no condition": 5,
+    "no event: status intended": 2,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 71
+   }
+  },
+  "S285": {
+   "unmapped": {
+    "fact scoped to no condition": 4,
+    "no event: status negated": 25,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 1,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 61
+   }
+  },
+  "S286": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 13,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 54
+   }
+  },
+  "S287": {
+   "unmapped": {
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 7,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 22,
+    "objects (own)": 60
+   }
+  },
+  "S288": {
+   "unmapped": {
+    "fact scoped to no condition": 26,
+    "no event: status negated": 13,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 48
+   }
+  },
+  "S289": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 17,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 64
+   }
+  },
+  "S290": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status negated": 16,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 11,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 77
+   }
+  },
+  "S291": {
+   "unmapped": {
+    "fact scoped to no condition": 15,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 55
+   }
+  },
+  "S292": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status intended": 1,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 47,
+    "objects (own)": 76
+   }
+  },
+  "S293": {
+   "unmapped": {
+    "fact scoped to no condition": 10,
+    "no event: status intended": 2,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 8,
+    "no end event: period stopped, end undated": 6,
+    "milestone citations given as counts only": 12,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 89
+   }
+  },
+  "S294": {
+   "unmapped": {
+    "fact scoped to no condition": 21,
+    "no event: status negated": 12,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 22,
+    "objects (own)": 46
+   }
+  },
+  "S295": {
+   "unmapped": {
+    "fact scoped to no condition": 38,
+    "no event: status negated": 20,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 52
+   }
+  },
+  "S296": {
+   "unmapped": {
+    "fact scoped to no condition": 23,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 52
+   }
+  },
+  "S297": {
+   "unmapped": {
+    "fact scoped to no condition": 9,
+    "no event: status negated": 21,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 52
+   }
+  },
+  "S298": {
+   "unmapped": {
+    "fact scoped to no condition": 5,
+    "no event: status intended": 2,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 3,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 44,
+    "objects (own)": 68
+   }
+  },
+  "S299": {
+   "unmapped": {
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 56
+   }
+  },
+  "S300": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 9,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 72
+   }
+  },
+  "S301": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 19,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 54
+   }
+  },
+  "S302": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 11,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 55
+   }
+  },
+  "S303": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status negated": 20,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 46
+   }
+  },
+  "S304": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 65
+   }
+  },
+  "S305": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status negated": 12,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 56
+   }
+  },
+  "S306": {
+   "unmapped": {
+    "fact scoped to no condition": 45,
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 42,
+    "objects (own)": 74
+   }
+  },
+  "S307": {
+   "unmapped": {
+    "fact scoped to no condition": 7,
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 11,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 62
+   }
+  },
+  "S308": {
+   "unmapped": {
+    "fact scoped to no condition": 35,
+    "no event: status negated": 17,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 53,
+    "objects (own)": 84
+   }
+  },
+  "S309": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 58
+   }
+  },
+  "S310": {
+   "unmapped": {
+    "fact scoped to no condition": 22,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 42,
+    "objects (own)": 70
+   }
+  },
+  "S311": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status intended": 1,
+    "no event: status negated": 16,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 4,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 37,
+    "objects (own)": 61
+   }
+  },
+  "S312": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status intended": 2,
+    "no event: status negated": 14,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 66
+   }
+  },
+  "S313": {
+   "unmapped": {
+    "fact scoped to no condition": 36,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 63
+   }
+  },
+  "S314": {
+   "unmapped": {
+    "no event: status negated": 20,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 52
+   }
+  },
+  "S315": {
+   "unmapped": {
+    "fact scoped to no condition": 12,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 58
+   }
+  },
+  "S316": {
+   "unmapped": {
+    "fact scoped to no condition": 39,
+    "no event: status negated": 24,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 61
+   }
+  },
+  "S317": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 61
+   }
+  },
+  "S318": {
+   "unmapped": {
+    "no event: status intended": 3,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 3,
+    "no end event: period changed, end undated": 3,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 42,
+    "objects (own)": 69
+   }
+  },
+  "S319": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 15,
+    "objects (own)": 44
+   }
+  },
+  "S320": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status intended": 1,
+    "no event: status negated": 16,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 56
+   }
+  },
+  "S321": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status intended": 2,
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 59
+   }
+  },
+  "S322": {
+   "unmapped": {
+    "fact scoped to no condition": 42,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 15,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 5,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 85
+   }
+  },
+  "S323": {
+   "unmapped": {
+    "fact scoped to no condition": 11,
+    "no event: status intended": 1,
+    "no event: status negated": 20,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 59,
+    "objects (own)": 75
+   }
+  },
+  "S324": {
+   "unmapped": {
+    "fact scoped to no condition": 20,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 55
+   }
+  },
+  "S325": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 3,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 67
+   }
+  },
+  "S326": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 16,
+    "objects (own)": 41
+   }
+  },
+  "S327": {
+   "unmapped": {
+    "fact scoped to no condition": 7,
+    "no event: status negated": 13,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 51
+   }
+  },
+  "S328": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 11,
+    "no event: temporally unresolved": 4,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 53
+   }
+  },
+  "S329": {
+   "unmapped": {
+    "fact scoped to no condition": 35,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 12
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 53,
+    "objects (own)": 82
+   }
+  },
+  "S330": {
+   "unmapped": {
+    "fact scoped to no condition": 34,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 59
+   }
+  },
+  "S331": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status negated": 19,
+    "no end event: period changed, end undated": 4,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 73
+   }
+  },
+  "S332": {
+   "unmapped": {
+    "fact scoped to no condition": 9,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 10,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 71
+   }
+  },
+  "S333": {
+   "unmapped": {
+    "fact scoped to no condition": 29,
+    "no event: status negated": 21,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 16,
+    "objects (own)": 54
+   }
+  },
+  "S334": {
+   "unmapped": {
+    "fact scoped to no condition": 14,
+    "no event: status intended": 1,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 26,
+    "objects (own)": 50
+   }
+  },
+  "S335": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status negated": 21,
+    "no event: status intended": 2,
+    "no event: temporally unresolved": 9,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 67
+   }
+  },
+  "S336": {
+   "unmapped": {
+    "fact scoped to no condition": 13,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 6,
+    "no end event: period stopped, end undated": 7,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 38,
+    "objects (own)": 66
+   }
+  },
+  "S337": {
+   "unmapped": {
+    "fact scoped to no condition": 32,
+    "no event: status negated": 21,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 24,
+    "objects (own)": 56
+   }
+  },
+  "S338": {
+   "unmapped": {
+    "patient left out: no gold_anchors": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 0,
+    "objects (own)": 0
+   }
+  },
+  "S339": {
+   "unmapped": {
+    "fact scoped to no condition": 41,
+    "no event: status negated": 20,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 64
+   }
+  },
+  "S340": {
+   "unmapped": {
+    "fact scoped to no condition": 31,
+    "no event: status negated": 14,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 31,
+    "objects (own)": 53
+   }
+  },
+  "S341": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status negated": 19,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "no end event: period changed, end undated": 1,
+    "no end event: ends before it starts": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 57,
+    "objects (own)": 77
+   }
+  },
+  "S342": {
+   "unmapped": {
+    "fact scoped to no condition": 25,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 41,
+    "objects (own)": 62
+   }
+  },
+  "S343": {
+   "unmapped": {
+    "fact scoped to no condition": 27,
+    "no event: status negated": 9,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 50
+   }
+  },
+  "S344": {
+   "unmapped": {
+    "fact scoped to no condition": 37,
+    "no event: status negated": 21,
+    "no event: status intended": 3,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 32,
+    "objects (own)": 59
+   }
+  },
+  "S345": {
+   "unmapped": {
+    "fact scoped to no condition": 18,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 2,
+    "no end event: period changed, end undated": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 63
+   }
+  },
+  "S346": {
+   "unmapped": {
+    "fact scoped to no condition": 30,
+    "no event: status intended": 4,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 4,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 63
+   }
+  },
+  "S347": {
+   "unmapped": {
+    "fact scoped to no condition": 28,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 5,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 66
+   }
+  },
+  "S348": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 56
+   }
+  },
+  "S349": {
+   "unmapped": {
+    "fact scoped to no condition": 16,
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 2,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 23,
+    "objects (own)": 58
+   }
+  },
+  "S350": {
+   "unmapped": {
+    "fact scoped to no condition": 4,
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 7,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 3
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 13,
+    "objects (own)": 51
+   }
+  },
+  "S351": {
+   "unmapped": {
+    "no event: status intended": 2,
+    "no event: status negated": 20,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 25,
+    "objects (own)": 56
+   }
+  },
+  "S352": {
+   "unmapped": {
+    "fact scoped to no condition": 4,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 5,
+    "milestone citations given as counts only": 10,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 78
+   }
+  },
+  "S353": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 29,
+    "objects (own)": 58
+   }
+  },
+  "S354": {
+   "unmapped": {
+    "fact scoped to no condition": 3,
+    "no event: status negated": 17,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 1,
+    "no end event: period changed, end undated": 2,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 40,
+    "objects (own)": 62
+   }
+  },
+  "S355": {
+   "unmapped": {
+    "no event: status intended": 4,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 65
+   }
+  },
+  "S356": {
+   "unmapped": {
+    "fact scoped to no condition": 3,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 63
+   }
+  },
+  "S357": {
+   "unmapped": {
+    "fact scoped to no condition": 33,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 57
+   }
+  },
+  "S358": {
+   "unmapped": {
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 9,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 15,
+    "objects (own)": 49
+   }
+  },
+  "S359": {
+   "unmapped": {
+    "no event: status intended": 1,
+    "no event: status negated": 9,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 50
+   }
+  },
+  "S360": {
+   "unmapped": {
+    "no event: status intended": 2,
+    "no event: status negated": 8,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 2,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 28,
+    "objects (own)": 47
+   }
+  },
+  "S361": {
+   "unmapped": {
+    "no event: status negated": 22,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 2,
+    "milestone citations given as counts only": 9
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 33,
+    "objects (own)": 62
+   }
+  },
+  "S362": {
+   "unmapped": {
+    "fact scoped to no condition": 19,
+    "no event: status intended": 2,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 27,
+    "objects (own)": 50
+   }
+  },
+  "S363": {
+   "unmapped": {
+    "fact scoped to no condition": 7,
+    "no event: status negated": 10,
+    "no event: status intended": 4,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 26,
+    "objects (own)": 53
+   }
+  },
+  "S364": {
+   "unmapped": {
+    "fact scoped to no condition": 17,
+    "no event: status negated": 22,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 7,
+    "no end event: period changed, end undated": 2,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 34,
+    "objects (own)": 67
+   }
+  },
+  "S365": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status negated": 19,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 6,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 69
+   }
+  },
+  "S366": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status intended": 2,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 5,
+    "milestone citations given as counts only": 11,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 47,
+    "objects (own)": 77
+   }
+  },
+  "S367": {
+   "unmapped": {
+    "no event: status intended": 1,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 5,
+    "milestone citations given as counts only": 9,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 53,
+    "objects (own)": 81
+   }
+  },
+  "S368": {
+   "unmapped": {
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 9,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 69
+   }
+  },
+  "S369": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status negated": 9,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 36
+   }
+  },
+  "S370": {
+   "unmapped": {
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 5,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 51,
+    "objects (own)": 74
+   }
+  },
+  "S371": {
+   "unmapped": {
+    "no event: status intended": 1,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 7
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 54,
+    "objects (own)": 75
+   }
+  },
+  "S372": {
+   "unmapped": {
+    "no event: status negated": 18,
+    "no event: status intended": 1,
+    "no event: temporally unresolved": 4,
+    "milestone citations given as counts only": 7,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 35,
+    "objects (own)": 63
+   }
+  },
+  "S373": {
+   "unmapped": {
+    "fact scoped to no condition": 4,
+    "no event: status intended": 1,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 6,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 39,
+    "objects (own)": 63
+   }
+  },
+  "S374": {
+   "unmapped": {
+    "no event: status intended": 1,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 8,
+    "no end event: period stopped, end undated": 4,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 12,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 52,
+    "objects (own)": 84
+   }
+  },
+  "S375": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status intended": 2,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 3,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 6
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 74
+   }
+  },
+  "S376": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 3,
+    "no end event: period stopped, end undated": 2,
+    "no end event: period changed, end undated": 6,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 56,
+    "objects (own)": 86
+   }
+  },
+  "S377": {
+   "unmapped": {
+    "fact scoped to no condition": 50,
+    "no event: status intended": 4,
+    "no event: status negated": 17,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 5,
+    "no end event: period changed, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 48,
+    "objects (own)": 76
+   }
+  },
+  "S378": {
+   "unmapped": {
+    "fact scoped to no condition": 3,
+    "no event: status intended": 1,
+    "no event: status negated": 21,
+    "no event: temporally unresolved": 3,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 59
+   }
+  },
+  "S379": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status intended": 3,
+    "no event: status negated": 19,
+    "no event: temporally unresolved": 1,
+    "no end event: period stopped, end undated": 1,
+    "milestone citations given as counts only": 10,
+    "no event: milestone not_reached": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 53,
+    "objects (own)": 77
+   }
+  },
+  "S380": {
+   "unmapped": {
+    "no event: status intended": 4,
+    "no event: status negated": 8,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 8,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 30,
+    "objects (own)": 45
+   }
+  },
+  "S381": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status negated": 18,
+    "milestone citations given as counts only": 8
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 36,
+    "objects (own)": 56
+   }
+  },
+  "S382": {
+   "unmapped": {
+    "fact scoped to no condition": 1,
+    "no event: status intended": 2,
+    "no event: status negated": 18,
+    "no event: temporally unresolved": 2,
+    "milestone citations given as counts only": 10
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 43,
+    "objects (own)": 68
+   }
+  },
+  "S383": {
+   "unmapped": {
+    "no event: status negated": 22,
+    "no event: status intended": 3,
+    "no event: temporally unresolved": 1,
+    "milestone citations given as counts only": 7,
+    "no event: milestone reached, undated": 1
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 20,
+    "objects (own)": 52
+   }
+  },
+  "S384": {
+   "unmapped": {
+    "fact scoped to no condition": 2,
+    "no event: status intended": 2,
+    "no event: status negated": 24,
+    "no event: temporally unresolved": 2,
+    "no end event: period stopped, end undated": 6,
+    "milestone citations given as counts only": 12,
+    "no event: milestone not_reached": 1,
+    "no event: milestone reached, undated": 2
+   },
+   "mapped_specially": {},
+   "notes": [],
+   "size": {
+    "events": 45,
+    "objects (own)": 85
+   }
+  }
+ }
+}
